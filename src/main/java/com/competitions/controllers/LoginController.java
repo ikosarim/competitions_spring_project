@@ -12,6 +12,6 @@ public class LoginController {
 
     @RequestMapping(method = GET)
     public String login(Model uiModel) {
-        return "pages/login";
+        return "/login";
     }
 }

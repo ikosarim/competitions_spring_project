@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/*")
-                .permitAll();
+                .permitAll()
 
 //                .and()
 //                .formLogin()
@@ -36,13 +36,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .loginProcessingUrl("/login")
 //                .loginPage("/login")
 //                .failureUrl("/security/loginfail")
-//                .defaultSuccessUrl("/singers")
+//                .defaultSuccessUrl("/")
 //                .permitAll()
-
+//
 //                .and()
 //                .logout()
 //                .logoutUrl("/logout")
-//                .logoutSuccessUrl("/singers")
+//                .logoutSuccessUrl("/")
 //                .and()
 //                .csrf().disable()
         ;

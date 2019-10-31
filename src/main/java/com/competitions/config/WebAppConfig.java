@@ -34,6 +34,6 @@ public class WebAppConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("pages/competitions_list");
+        registry.addViewController("/").setViewName("pages/**");
     }
 }

@@ -56,9 +56,7 @@ public class DatabaseConfig {
     public Properties hibernateProperties() {
         Properties hibernateProp = new Properties();
         hibernateProp.put("hibernate.dialect", env.getProperty("spring.hibernate.dialect"));
-        if (Boolean.valueOf(env.getProperty("spring.hibernate.is_hbm2ddl.auto"))) {
-            hibernateProp.put("hibernate.hbm2ddl.auto", env.getProperty("spring.hibernate.hbm2ddl.auto"));
-        }
+        hibernateProp.put("hibernate.hbm2ddl.auto", env.getProperty("spring.hibernate.hbm2ddl.auto"));
         hibernateProp.put("hibernate.show_sql", true);
         hibernateProp.put("hibernate.format_sql", true);
         hibernateProp.put("hibernate.max_fetch_depth", Integer.parseInt(env.getProperty("spring.hibernate.max_fetch_depth")));

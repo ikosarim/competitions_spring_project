@@ -1,11 +1,13 @@
 package com.competitions;
 
-import com.competitions.services.MemberService;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-public class Main {
+@SpringBootApplication
+public class CompetitionsApplication {
 
     public static void main(String[] args) {
-//        MemberService memberService = new MemberService();
+        SpringApplication.run(CompetitionsApplication.class, args);
     }
 }
 

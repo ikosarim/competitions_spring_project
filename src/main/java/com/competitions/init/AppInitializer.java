@@ -26,7 +26,7 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
     @Override
     protected String[] getServletMappings() {
-        return new String[]{"/competitions_list"};
+        return new String[]{"/"};
     }
 
     @Override

@@ -91,9 +91,9 @@ public class CompetitionServiceTests extends DataContainer {
                 captainPhoneNums.toArray(String[]::new));
     }
 
-//    @After
-//    public void destroyData() {
-//        CompetitionLead lead = leadService.getByNickName("red");
-//        leadService.removePerson(lead);
-//    }
+    @After
+    public void destroyData() {
+        CompetitionLead lead = leadService.getByNickName("red");
+        leadService.removePerson(lead);
+    }
 }

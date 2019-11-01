@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/competitions_list")
@@ -18,6 +19,7 @@ public class CompetitionsController {
     MemberService<Member> memberService;
 
     @GetMapping
+    @ResponseBody
     public String competitionsList(Model uiModel) {
         uiModel.addAttribute("competitions", memberService.getAllCompetitions());
         return "/competitions_list";

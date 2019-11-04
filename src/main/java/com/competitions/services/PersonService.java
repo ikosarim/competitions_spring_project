@@ -35,4 +35,6 @@ public interface PersonService<P extends Person> {
     Set<Captain> getAllTeamsForCompetition(String competitionName);
 
     Set<Competition> findAllCompetitionsForUser(String userNickName);
+
+    // TODO: 04.11.2019 Переписать сервисы, используя паттерн фасад 
 }

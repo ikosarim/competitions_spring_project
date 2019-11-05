@@ -9,11 +9,13 @@ import java.util.Set;
 
 public interface MemberService {
 
+    Member findMemberById(Integer id);
+
     List<Member> findAllMembersFromOwnTeam(Member member); // Member, Captain
 
     Member findMemberFromOwnTeamById(Member member, Integer memberId); // Member, Captain
 
-    Member changeMemberDegree(Member member, String memberDegree); // Member
+    Member changeMemberDegree(Member member, String memberDegree); // +Controller -Member
 
     Member createRequestForEnterInTeam(Captain captain, Member member, String description); // Member
 
@@ -26,7 +28,7 @@ public interface MemberService {
     Member createNewPerson(String memberDegree,
                       String personName, String personSurname, String personNickName,
                       int passportSeries, int passportNumber, int dayOfDate, int monthOfDate, int yearOfDate,
-                      String... phoneNumbers) throws IllegalArgumentException; // Guest
+                      String... phoneNumbers) throws IllegalArgumentException; // +Controller -Guest
 
-    void removePerson(Member member); // Member
+    void removePerson(Member member); // +Controller -Member
 }

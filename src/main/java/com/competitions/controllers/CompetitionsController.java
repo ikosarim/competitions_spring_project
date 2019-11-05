@@ -18,16 +18,14 @@ public class CompetitionsController {
     CompetitionsFacade competitionsFacade;
 
     @GetMapping
-    public String competitionsList(Model uiModel) {
+    public String getCompetitionsList(Model uiModel) {
         uiModel.addAttribute("competitions", competitionsFacade.findAllCompetitions());
         return "/competitions_list";
     }
 
     @GetMapping(value = "/{idCompetition}")
-    public String competitionInfo(Model uiModel, @PathVariable Integer idCompetition) {
+    public String getCompetitionInfo(Model uiModel, @PathVariable Integer idCompetition) {
         uiModel.addAttribute("competition", competitionsFacade.getCompetitionInfo(idCompetition));
         return "/competition_info";
     }
-
-
 }

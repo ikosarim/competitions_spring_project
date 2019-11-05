@@ -10,11 +10,11 @@ public interface LeadService {
 
     CompetitionLead getLeadById(Integer id); // Captain, Lead
 
-    CompetitionLead changeLeadExperience(CompetitionLead lead, double newLeadExperience); // Lead
+    CompetitionLead changeLeadExperience(CompetitionLead lead, double newLeadExperience); // +Controller -Lead
 
-    CompetitionLead changeLeadCertificate(CompetitionLead lead, String newLeadCertificate); // Lead
+    CompetitionLead changeLeadCertificate(CompetitionLead lead, String newLeadCertificate); // +Controller Lead
 
-    CompetitionLead changeLeadSpecialization(CompetitionLead lead, String newLeadSpecialization); // Lead
+    CompetitionLead changeLeadSpecialization(CompetitionLead lead, String newLeadSpecialization); // +Controller Lead
 
     CompetitionLead addNewCompetition(CompetitionLead lead, String competitionName, String competitionDescription, String competitionReward); // Lead
 
@@ -27,7 +27,7 @@ public interface LeadService {
     CompetitionLead createNewPerson(double leadExperience, String leadCertificates, String leadSpecialization,
                                     String personName, String personSurname, String personNickName,
                                     int passportSeries, int passportNumber, int dayOfDate, int monthOfDate, int yearOfDate,
-                                    String... phoneNumbers) throws IllegalArgumentException; // Lead
+                                    String... phoneNumbers) throws IllegalArgumentException; // +Controller -Lead
 
-    void removePerson(CompetitionLead member); // Lead
+    void removePerson(CompetitionLead member); // +Controller -Lead
 }

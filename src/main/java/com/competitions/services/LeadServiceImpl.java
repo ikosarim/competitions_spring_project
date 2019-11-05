@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -36,13 +35,7 @@ public class LeadServiceImpl implements LeadService {
     @Override
     @Transactional(readOnly = true)
     public CompetitionLead getLeadById(Integer id) {
-        Optional<CompetitionLead> competitionLead = getAllLeads().stream()
-                .filter(lead -> id.equals(lead.getIdPerson()))
-                .findAny();
-        if (competitionLead.isEmpty()) {
-            return null;
-        }
-        return competitionLead.get();
+        return leadRepository.findById(id).orElse(null);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.competitions.services;
 
-import com.competitions.entities.Captain;
 import com.competitions.entities.Competition;
 import com.competitions.repos.CompetitionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +26,6 @@ public class CompetitionServiceImpl implements CompetitionService {
     @Override
     public Competition findCompetitionById(Integer competitionId) {
         return competitionsRepository.findById(competitionId).orElse(null);
-    }
-
-    @Override
-    public Set<Captain> findAllTeamsForCompetition(Integer competitionId) {
-        return competitionsRepository.findAllCaptainsForCompetition(competitionId);
     }
 
     @Override

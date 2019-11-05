@@ -13,9 +13,9 @@ public interface CaptainService {
 
     Captain getCaptainById(Integer id); // Member, Captain
 
-    Captain changeTeamName(Captain captain, String newTeamName); // Captain
+    Captain changeTeamName(Captain captain, String newTeamName); // +Controller -Captain
 
-    Captain changeExperience(Captain captain, double newExperience); // Captain
+    Captain changeExperience(Captain captain, double newExperience); // +Controller -Captain
 
     Set<RequestForEnter> findAllRequestsToCaptain(Captain captain); // Captain
 
@@ -34,7 +34,7 @@ public interface CaptainService {
     Captain createNewPerson(String captainTeamName, double captainExperience,
                             String personName, String personSurname, String personNickName,
                             int passportSeries, int passportNumber, int dayOfDate, int monthOfDate, int yearOfDate,
-                            String... phoneNumbers) throws IllegalArgumentException; // Captain
+                            String... phoneNumbers) throws IllegalArgumentException; // +Controller -Captain
 
-    void removePerson(Captain member); // Captain
+    void removePerson(Captain member); // +Controller -Captain
 }

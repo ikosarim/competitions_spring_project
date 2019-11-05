@@ -29,6 +29,11 @@ public class MemberServiceImpl implements MemberService {
     CaptainRepository captainRepository;
 
     @Override
+    public Member findMemberById(Integer id) {
+        return memberRepository.findById(id).orElse(null);
+    }
+
+    @Override
     @Transactional(readOnly = true)
     public List<Member> findAllMembersFromOwnTeam(Member member) {
         if (member.getCaptain() == null) {

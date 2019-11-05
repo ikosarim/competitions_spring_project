@@ -1,9 +1,6 @@
 package com.competitions;
 
 import com.competitions.config.DatabaseConfig;
-import com.competitions.entities.Captain;
-import com.competitions.entities.CompetitionLead;
-import com.competitions.entities.Member;
 import com.competitions.services.CaptainService;
 import com.competitions.services.LeadService;
 import com.competitions.services.MemberService;
@@ -22,11 +19,11 @@ import java.util.Map;
 public abstract class DataContainer {
 
     @Autowired
-    CaptainService<Captain> captainService;
+    CaptainService captainService;
     @Autowired
-    MemberService<Member> memberService;
+    MemberService memberService;
     @Autowired
-    LeadService<CompetitionLead> leadService;
+    LeadService leadService;
 
 
     Map<String, Object> specialMember1Data = new HashMap<>() {{

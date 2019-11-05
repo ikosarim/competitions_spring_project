@@ -11,7 +11,7 @@ import java.util.Set;
 
 import static org.junit.Assert.*;
 
-public class MemberServiceTests extends DataContainer {
+public class MemberServiceOldTests extends DataContainer {
 
     @Before
     public void initData() {

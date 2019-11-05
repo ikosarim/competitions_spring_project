@@ -28,24 +28,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/*")
                 .permitAll()
-
-//                .and()
-//                .formLogin()
-//                .usernameParameter("username")
-//                .passwordParameter("password")
-//                .loginProcessingUrl("/login")
-//                .loginPage("/login")
-//                .failureUrl("/security/loginfail")
-//                .defaultSuccessUrl("/")
-//                .permitAll()
-//
-//                .and()
-//                .logout()
-//                .logoutUrl("/logout")
-//                .logoutSuccessUrl("/")
-//                .and()
-//                .csrf().disable()
-        ;
+                .and()
+        .formLogin()
+        .loginPage("/login.html")
+        .failureUrl("/asdjkfhal")
+        .and()
+        .logout()
+        .logoutSuccessUrl("/index.html");
     }
 
     // TODO: 05.11.2019 Реализовать корректно

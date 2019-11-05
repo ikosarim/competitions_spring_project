@@ -1,23 +1,28 @@
 package com.competitions.services;
 
-import com.competitions.entities.*;
+import com.competitions.entities.Competition;
+import com.competitions.entities.CompetitionLead;
+import com.competitions.entities.Passport;
+import com.competitions.entities.Phone;
 import com.competitions.repos.LeadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
 import static com.competitions.util.UtilFormatterClass.convertToYyyyMmDd;
 import static java.util.stream.Collectors.toSet;
 
-@Service("leadService")
+@Repository
+@Service
 @Transactional
-public class LeadServiceImpl implements LeadService<CompetitionLead> {
+public class LeadServiceImpl implements LeadService {
 
     @Autowired
     LeadRepository leadRepository;
@@ -31,66 +36,13 @@ public class LeadServiceImpl implements LeadService<CompetitionLead> {
     @Override
     @Transactional(readOnly = true)
     public CompetitionLead getLeadById(Integer id) {
-        return getAllLeads().stream()
-                .filter(l -> id == l.getIdPerson())
-                .findAny()
-                .orElse(null);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public CompetitionLead getByNickName(String nickName) {
-        return getAllLeads().stream()
-                .filter(l -> nickName.equals(l.getPersonNickName()))
-                .findAny()
-                .orElse(null);
-    }
-
-    @Override
-    public CompetitionLead addNewPhone(CompetitionLead lead, String phoneNum) {
-        Phone phone = Phone.builder()
-                .phoneNum(phoneNum)
-                .build();
-        lead.getPhone().add(phone);
-        phone.setPerson(lead);
-        return leadRepository.save(lead);
-    }
-
-    @Override
-    public CompetitionLead changePhone(CompetitionLead lead, String phoneNum, String newPhoneNum) {
-        if (checkAndRemovePhone(lead, phoneNum)) return lead;
-        return addNewPhone(lead, newPhoneNum);
-    }
-
-    @Override
-    public CompetitionLead deleteAllPhones(CompetitionLead lead) {
-        lead.getPhone().removeAll(lead.getPhone());
-        return leadRepository.save(lead);
-    }
-
-    @Override
-    public CompetitionLead deletePhone(CompetitionLead lead, String phoneNum) {
-        if (checkAndRemovePhone(lead, phoneNum)) return lead;
-        return leadRepository.save(lead);
-    }
-
-    private boolean checkAndRemovePhone(CompetitionLead lead, String phoneNum2) {
-        Phone phone = lead.getPhone()
-                .stream()
-                .filter(p -> phoneNum2.equals(p.getPhoneNum()))
-                .findAny()
-                .orElse(null);
-        if (phone == null) {
-            return true;
+        Optional<CompetitionLead> competitionLead = getAllLeads().stream()
+                .filter(lead -> id.equals(lead.getIdPerson()))
+                .findAny();
+        if (competitionLead.isEmpty()) {
+            return null;
         }
-        lead.getPhone().remove(phone);
-        return false;
-    }
-
-    @Override
-    public CompetitionLead changeNickName(CompetitionLead lead, String newNickName) {
-        lead.setPersonNickName(newNickName);
-        return leadRepository.save(lead);
+        return competitionLead.get();
     }
 
     @Override
@@ -125,10 +77,10 @@ public class LeadServiceImpl implements LeadService<CompetitionLead> {
     }
 
     @Override
-    public CompetitionLead changeCompetition(CompetitionLead lead, String competitionName, String newCompetitionDescription,
-                                             String newCompetitionReward) {
+    public CompetitionLead changeCompetition(CompetitionLead lead, String competitionName, String competitionDescription,
+                                             String competitionReward) {
         if (checkAndRemoveCompetition(lead, competitionName)) return lead;
-        return addNewCompetition(lead, competitionName, newCompetitionDescription, newCompetitionReward);
+        return addNewCompetition(lead, competitionName, competitionDescription, competitionReward);
     }
 
     @Override
@@ -158,54 +110,45 @@ public class LeadServiceImpl implements LeadService<CompetitionLead> {
     }
 
     @Override
-    public CompetitionLead createNewPerson(Map<String, Object> specialPersonData,
-                                           String leadName, String leadSurname, String leadNickName,
+    public CompetitionLead createNewPerson(double leadExperience, String leadCertificates, String leadSpecialization,
+                                           String personName, String personSurname, String personNickName,
                                            int passportSeries, int passportNumber, int dayOfDate, int monthOfDate, int yearOfDate,
                                            String... phoneNumbers) throws IllegalArgumentException {
         String date = convertToYyyyMmDd(yearOfDate, monthOfDate, dayOfDate);
-        Passport passport = Passport.builder()
-                .passportSeries(passportSeries)
-                .passportNumber(passportNumber)
-                .dateOfIssue(date)
-                .build();
+        Passport passport = createPassport(passportSeries, passportNumber, date);
         Set<Phone> phones = Stream.of(phoneNumbers).map(Phone::new).collect(toSet());
-        CompetitionLead lead = CompetitionLead.builder()
-                .leadExperience(Double.parseDouble(specialPersonData.get("leadExperience").toString()))
-                .leadCertificates(specialPersonData.get("leadCertificates").toString())
-                .leadSpecialization(specialPersonData.get("leadSpecialization").toString())
-                .personName(leadName)
-                .personSurname(leadSurname)
-                .personNickName(leadNickName)
-                .passport(passport)
-                .phones(Arrays.copyOf(phones.toArray(), phones.size(), Phone[].class))
-                .build();
+        CompetitionLead lead = createLead(leadExperience, leadCertificates, leadSpecialization,
+                personName, personSurname, personNickName, passport, phones);
         passport.setPerson(lead);
         phones.forEach(p -> p.setPerson(lead));
         return leadRepository.save(lead);
     }
 
+    private CompetitionLead createLead(double leadExperience, String leadCertificates, String leadSpecialization,
+                                       String personName, String personSurname, String personNickName,
+                                       Passport passport, Set<Phone> phones) {
+        return CompetitionLead.builder()
+                .leadExperience(leadExperience)
+                .leadCertificates(leadCertificates)
+                .leadSpecialization(leadSpecialization)
+                .personName(personName)
+                .personSurname(personSurname)
+                .personNickName(personNickName)
+                .passport(passport)
+                .phones(Arrays.copyOf(phones.toArray(), phones.size(), Phone[].class))
+                .build();
+    }
+
+    private Passport createPassport(int passportSeries, int passportNumber, String date) {
+        return Passport.builder()
+                .passportSeries(passportSeries)
+                .passportNumber(passportNumber)
+                .dateOfIssue(date)
+                .build();
+    }
+
     @Override
     public void removePerson(CompetitionLead lead) {
         leadRepository.delete(lead);
-    }
-
-    @Override
-    public Set<Competition> getAllCompetitions() {
-        return leadRepository.getAllCompetitions();
-    }
-
-    @Override
-    public Competition getCompetitionByName(String competitionName) {
-        return leadRepository.getCompetitionByName(competitionName);
-    }
-
-    @Override
-    public Set<Captain> getAllTeamsForCompetition(String competitionName) {
-        return leadRepository.getAllTeamsForCompetition(competitionName);
-    }
-
-    @Override
-    public Set<Competition> findAllCompetitionsForUser(String userNickName) {
-        return leadRepository.findAllCompetitionsForUser(userNickName);
     }
 }

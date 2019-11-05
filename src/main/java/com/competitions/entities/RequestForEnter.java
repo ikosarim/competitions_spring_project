@@ -34,7 +34,7 @@ public class RequestForEnter implements Serializable {
     private String requestDescription;
 
     @Column(name = "request_status", nullable = false)
-    private boolean requestStatus;
+    private boolean requestStatus = false;
 
     @Override
     public boolean equals(Object o) {

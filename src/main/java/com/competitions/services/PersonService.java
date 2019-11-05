@@ -1,40 +1,18 @@
 package com.competitions.services;
 
-import com.competitions.entities.Captain;
-import com.competitions.entities.Competition;
-import com.competitions.entities.Member;
 import com.competitions.entities.Person;
 
-import java.util.Map;
-import java.util.Set;
+public interface PersonService {
 
-public interface PersonService<P extends Person> {
-    P getByNickName(String nickName);
+    Integer getByNickName(String nickName); // Guest
 
-    P changeNickName(P person, String newNickName);
+    Person changeNickName(Person person, String newNickName); // Authorized
 
-    P addNewPhone(P captain, String phoneNum);
+    Person addNewPhone(Person person, String phoneNum); // Authorized
 
-    P changePhone(P member, String phoneNum, String newPhoneNum);
+    Person changePhone(Person person, String phoneNum, String newPhoneNum); // Authorized
 
-    P deleteAllPhones(P member);
+    Person deleteAllPhones(Person person); // Authorized
 
-    P deletePhone(P member, String phoneNum);
-
-    P createNewPerson(Map<String, Object> specialPersonData,
-                      String personName, String personSurname, String personNickName,
-                      int passportSeries, int passportNumber, int dayOfDate, int monthOfDate, int yearOfDate,
-                      String... phoneNumbers) throws IllegalArgumentException;
-
-    void removePerson(P member);
-
-    Set<Competition> getAllCompetitions();
-
-    Competition getCompetitionByName(String competitionName);
-
-    Set<Captain> getAllTeamsForCompetition(String competitionName);
-
-    Set<Competition> findAllCompetitionsForUser(String userNickName);
-
-    // TODO: 04.11.2019 Переписать сервисы, используя паттерн фасад
+    Person deletePhone(Person person, String phoneNum); // Authorized
 }

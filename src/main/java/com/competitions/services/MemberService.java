@@ -1,24 +1,32 @@
 package com.competitions.services;
 
-import com.competitions.entities.*;
+import com.competitions.entities.Captain;
+import com.competitions.entities.Member;
+import com.competitions.entities.RequestForEnter;
 
 import java.util.List;
 import java.util.Set;
 
-public interface MemberService<P extends Person> extends PersonService<P> {
-    List<Member> getAllMembersFromOwnTeam(Member member);
+public interface MemberService {
 
-    Member getMemberFromOwnTeamById(Member member, Integer memberId);
+    List<Member> findAllMembersFromOwnTeam(Member member); // Member, Captain
 
-    Member changeMemberDegree(Member member, String memberDegree);
+    Member findMemberFromOwnTeamById(Member member, Integer memberId); // Member, Captain
 
-    Set<Competition> getAllCompetitionsForUser(Member member);
+    Member changeMemberDegree(Member member, String memberDegree); // Member
 
-    Member createRequestForEnterInTeam(Captain captain, Member member, String description);
+    Member createRequestForEnterInTeam(Captain captain, Member member, String description); // Member
 
-    Set<RequestForEnter> getAllRequestsForEnterOfMember(Member member);
+    Set<RequestForEnter> findAllRequestsForEnterOfMember(Member member); // Member
 
-    Member cancelRequestForEnter(Captain captain, Member member);
+    Member cancelRequestForEnter(Captain captain, Member member); // Member
 
-    Member leaveTeam(Member member);
+    Member leaveTeam(Member member); // Member
+
+    Member createNewPerson(String memberDegree,
+                      String personName, String personSurname, String personNickName,
+                      int passportSeries, int passportNumber, int dayOfDate, int monthOfDate, int yearOfDate,
+                      String... phoneNumbers) throws IllegalArgumentException; // Guest
+
+    void removePerson(Member member); // Member
 }

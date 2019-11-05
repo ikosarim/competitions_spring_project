@@ -11,7 +11,7 @@ import java.util.Set;
 
 import static org.testng.Assert.*;
 
-public class CaptainServiceTests extends DataContainer {
+public class CaptainServiceOldTests extends DataContainer {
 
     @Before
     public void initData() {

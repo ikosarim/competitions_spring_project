@@ -47,4 +47,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .csrf().disable()
         ;
     }
+
+    // TODO: 05.11.2019 Реализовать корректно
 }

@@ -112,13 +112,16 @@ public class CaptainServiceImpl implements CaptainService<Captain> {
                                    int passportSeries, int passportNumber, int dayOfDate, int monthOfDate, int yearOfDate,
                                    String... phoneNumbers) throws IllegalArgumentException {
         String date = convertToYyyyMmDd(yearOfDate, monthOfDate, dayOfDate);
-        Passport passport = Passport.builder()
-                .passportSeries(passportSeries)
-                .passportNumber(passportNumber)
-                .dateOfIssue(date)
-                .build();
+        Passport passport = createPassport(passportSeries, passportNumber, date);
         Set<Phone> phones = Stream.of(phoneNumbers).map(Phone::new).collect(toSet());
-        Captain captain = Captain.builder()
+        Captain captain = createCaptain(specialPersonData, personName, personSurname, personNickName, passport, phones);
+        passport.setPerson(captain);
+        phones.forEach(p -> p.setPerson(captain));
+        return captainRepository.save(captain);
+    }
+
+    private Captain createCaptain(Map<String, Object> specialPersonData, String personName, String personSurname, String personNickName, Passport passport, Set<Phone> phones) {
+        return Captain.builder()
                 .captainExperience(Double.parseDouble(specialPersonData.get("captainExperience").toString()))
                 .captainTeamName(specialPersonData.get("captainTeamName").toString())
                 .personName(personName)
@@ -127,9 +130,14 @@ public class CaptainServiceImpl implements CaptainService<Captain> {
                 .passport(passport)
                 .phones(Arrays.copyOf(phones.toArray(), phones.size(), Phone[].class))
                 .build();
-        passport.setPerson(captain);
-        phones.forEach(p -> p.setPerson(captain));
-        return captainRepository.save(captain);
+    }
+
+    private Passport createPassport(int passportSeries, int passportNumber, String date) {
+        return Passport.builder()
+                .passportSeries(passportSeries)
+                .passportNumber(passportNumber)
+                .dateOfIssue(date)
+                .build();
     }
 
     @Override

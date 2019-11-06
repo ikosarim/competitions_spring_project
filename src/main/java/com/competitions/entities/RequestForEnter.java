@@ -17,16 +17,16 @@ import java.util.Objects;
 @Setter
 public class RequestForEnter implements Serializable {
 
-    @EmbeddedId
-    RequestForEnterPK requestForEnterPK;
+    @Id
+    @GeneratedValue
+    @Column(name = "id_request", nullable = false)
+    private Integer idRequest;
 
     @ManyToOne
-    @MapsId(value = "captain_id")
     @JoinColumn(name = "captain_id")
     private Captain captain;
 
     @ManyToOne
-    @MapsId(value = "member_id")
     @JoinColumn(name = "member_id")
     private Member member;
 
@@ -41,14 +41,14 @@ public class RequestForEnter implements Serializable {
         if (this == o) return true;
         if (!(o instanceof RequestForEnter)) return false;
         RequestForEnter that = (RequestForEnter) o;
-        return isRequestStatus() == that.isRequestStatus() &&
-                getRequestForEnterPK().equals(that.getRequestForEnterPK()) &&
+        return getIdRequest().equals(that.getIdRequest()) &&
                 getCaptain().equals(that.getCaptain()) &&
-                getMember().equals(that.getMember());
+                getMember().equals(that.getMember()) &&
+                Objects.equals(getRequestDescription(), that.getRequestDescription());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getRequestForEnterPK(), getCaptain(), getMember(), isRequestStatus());
+        return Objects.hash(getIdRequest(), getCaptain(), getMember(), getRequestDescription());
     }
 }

@@ -7,7 +7,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static com.competitions.util.UtilFormatterClass.convertToYyyyMmDd;
@@ -46,30 +49,25 @@ public class CaptainServiceImpl implements CaptainService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Set<RequestForEnter> findAllRequestsToCaptain(Captain captain) {
-        return captain.getRequestsForEnter();
-    }
-
-    @Override
-    public Captain showRequestToCaptain(Captain captain, Member member) {
-        Optional<RequestForEnter> request = findNeedRequestForEnter(captain, member);
+    public Captain showRequestToCaptain(Captain captain, Integer requestId) {
+        Optional<RequestForEnter> request = findNeedRequestForEnter(captain, requestId);
         if (request.isEmpty()) return null;
         request.get().setRequestStatus(true);
         return captainRepository.save(captain);
     }
 
-    private Optional<RequestForEnter> findNeedRequestForEnter(Captain captain, Member member) {
-        return findAllRequestsToCaptain(captain).stream()
-                .filter(req -> member.equals(req.getMember()))
+    private Optional<RequestForEnter> findNeedRequestForEnter(Captain captain, Integer requestId) {
+        return captain.getRequestsForEnter().stream()
+                .filter(req -> requestId.equals(req.getIdRequest()))
                 .findAny();
     }
 
     @Override
-    public Captain acceptMemberEnterToCaptain(Captain captain, Member member) {
-        Optional<RequestForEnter> request = findNeedRequestForEnter(captain, member);
+    public Captain acceptMemberEnterToCaptain(Captain captain, Integer requestId) {
+        Optional<RequestForEnter> request = findNeedRequestForEnter(captain, requestId);
         if (request.isEmpty()) return null;
         captain.getRequestsForEnter().remove(request.get());
+        Member member = request.get().getMember();
         member.getRequestsForEnter().removeAll(member.getRequestsForEnter());
         captain.getMembers().add(member);
         member.setCaptain(captain);
@@ -77,9 +75,10 @@ public class CaptainServiceImpl implements CaptainService {
     }
 
     @Override
-    public Captain declineMemberEnterToCaptain(Captain captain, Member member) {
-        Optional<RequestForEnter> request = findNeedRequestForEnter(captain, member);
+    public Captain declineMemberEnterToCaptain(Captain captain, Integer requestId) {
+        Optional<RequestForEnter> request = findNeedRequestForEnter(captain, requestId);
         if (request.isEmpty()) return null;
+        Member member = request.get().getMember();
         member.getRequestsForEnter().remove(request.get());
         captain.getRequestsForEnter().remove(request.get());
         return captainRepository.save(captain);
@@ -140,6 +139,7 @@ public class CaptainServiceImpl implements CaptainService {
                 .dateOfIssue(date)
                 .build();
     }
+
     @Override
     public void removePerson(Captain captain) {
         captainRepository.delete(captain);

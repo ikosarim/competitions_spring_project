@@ -63,12 +63,6 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member createRequestForEnterInTeam(Captain captain, Member member, String description) {
         RequestForEnter requestForEnter = RequestForEnter.builder()
-                .requestForEnterPK(
-                        RequestForEnterPK.builder()
-                                .captainId(captain.getIdPerson())
-                                .memberId(member.getIdPerson())
-                                .build()
-                )
                 .captain(captain)
                 .member(member)
                 .requestDescription(description)
@@ -86,16 +80,17 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member cancelRequestForEnter(Captain captain, Member member) {
+    public Member cancelRequestForEnter(Integer requestId, Member member) {
         RequestForEnter requestForEnter = member.getRequestsForEnter()
                 .stream()
-                .filter(rfe -> captain.equals(rfe.getCaptain()))
+                .filter(rfe -> requestId.equals(rfe.getIdRequest()))
                 .findAny()
                 .orElse(null);
         if (requestForEnter == null) {
             return member;
         }
         member.getRequestsForEnter().remove(requestForEnter);
+        Captain captain = requestForEnter.getCaptain();
         captain.getRequestsForEnter().remove(requestForEnter);
         memberRepository.save(member);
         captainRepository.save(captain);

@@ -133,4 +133,90 @@ public class CompetitionsFacade {
         }
         return null;
     }
+
+    public List<Member> findAllMembersFromOwnTeam(Member member) {
+        return memberService.findAllMembersFromOwnTeam(member);
+    }
+
+    public Member findMemberFromOwnTeamById(Member member, Integer memberId) {
+        return memberService.findMemberFromOwnTeamById(member, memberId);
+    }
+
+    public Set<RequestForEnter> findAllRequestsForEnterOfMember(Member member) {
+        return memberService.findAllRequestsForEnterOfMember(member);
+    }
+
+    public Member leaveTeam(Member member) {
+        return memberService.leaveTeam(member);
+    }
+
+    public Member createRequestForEnterInTeam(Captain captain, Member member, String description) {
+        return memberService.createRequestForEnterInTeam(captain, member, description);
+    }
+
+    public Member cancelRequestToEnterInTeam(Integer requestId, Member member) {
+        return memberService.cancelRequestForEnter(requestId, member);
+    }
+
+    public List<Captain> findAllCaptains() {
+        return captainService.getAllCaptains();
+    }
+
+    public Captain getCaptainById(Integer id) {
+        return captainService.getCaptainById(id);
+    }
+
+    public Captain showRequestToCaptain(Captain captain, Integer requestId) {
+        return captainService.showRequestToCaptain(captain, requestId);
+    }
+
+    public Captain acceptMemberEnterToCaptain(Captain captain, Integer requestId) {
+        return captainService.acceptMemberEnterToCaptain(captain, requestId);
+    }
+
+    public Captain declineMemberEnterToCaptain(Captain captain, Integer requestId) {
+        return captainService.declineMemberEnterToCaptain(captain, requestId);
+    }
+
+    public Captain deleteMemberFromCaptain(Captain captain, Integer memberId) {
+        Member member = memberService.findMemberById(memberId);
+        return captainService.deleteMemberFromCaptain(captain, member);
+    }
+
+    public Captain takePartInTheCompetition(Captain captain, Integer competitionId) {
+        Competition competition = competitionService.findCompetitionById(competitionId);
+        return captainService.takePartInTheCompetition(captain, competition);
+    }
+
+    public Captain leaveTheCompetition(Captain captain, Integer competitionId) {
+        Competition competition = competitionService.findCompetitionById(competitionId);
+        return captainService.leaveTheCompetition(captain, competition);
+    }
+
+    public List<CompetitionLead> findAllCompetitionLeads() {
+        return leadService.getAllLeads();
+    }
+
+    public CompetitionLead getLeadById(Integer leadId) {
+        return leadService.getLeadById(leadId);
+    }
+
+    public CompetitionLead addCompetition(CompetitionLead lead, String competitionName, String competitionDescription,
+                                          String competitionReward) {
+        return leadService.addNewCompetition(lead, competitionName, competitionDescription, competitionReward);
+    }
+
+    public CompetitionLead changeCompetition(CompetitionLead lead, String competitionName, String competitionDescription,
+                                             String competitionReward) {
+        return leadService.changeCompetition(lead, competitionName, competitionDescription, competitionReward);
+    }
+
+    public CompetitionLead deleteAllCompetitions(CompetitionLead lead) {
+        return leadService.deleteAllCompetitions(lead);
+    }
+
+    public CompetitionLead deleteCompetition(CompetitionLead lead, Integer competitionId) {
+        Competition competition = competitionService.findCompetitionById(competitionId);
+        return leadService.deleteCompetition(lead, competition.getCompetitionName());
+    }
 }

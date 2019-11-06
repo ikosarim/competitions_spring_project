@@ -11,19 +11,19 @@ public interface MemberService {
 
     Member findMemberById(Integer id);
 
-    List<Member> findAllMembersFromOwnTeam(Member member); // Member, Captain
+    List<Member> findAllMembersFromOwnTeam(Member member); // +Controller -(Member, Captain)
 
-    Member findMemberFromOwnTeamById(Member member, Integer memberId); // Member, Captain
+    Member findMemberFromOwnTeamById(Member member, Integer memberId); // +Controller -(Member, Captain)
 
     Member changeMemberDegree(Member member, String memberDegree); // +Controller -Member
 
-    Member createRequestForEnterInTeam(Captain captain, Member member, String description); // Member
+    Member createRequestForEnterInTeam(Captain captain, Member member, String description); // +Controller -Member
 
-    Set<RequestForEnter> findAllRequestsForEnterOfMember(Member member); // Member
+    Set<RequestForEnter> findAllRequestsForEnterOfMember(Member member); // +Controller -Member
 
-    Member cancelRequestForEnter(Captain captain, Member member); // Member
+    Member cancelRequestForEnter(Integer requestId, Member member); // +Controller -Member
 
-    Member leaveTeam(Member member); // Member
+    Member leaveTeam(Member member); // +Controller -Member
 
     Member createNewPerson(String memberDegree,
                       String personName, String personSurname, String personNickName,

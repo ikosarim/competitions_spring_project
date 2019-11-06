@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller("/person_info")
@@ -100,7 +102,7 @@ public class PersonInfoController {
     }
 
     @PostMapping
-    public String changeExperience(Model model, @ModelAttribute Person person, @ModelAttribute Double newExperience){
+    public String changeExperience(Model model, @ModelAttribute Person person, @ModelAttribute Double newExperience) {
         Captain captain = (Captain) person;
         competitionsFacade.changeExperience(captain, newExperience);
         renderPersonCard(model, captain.getPersonNickName());
@@ -111,6 +113,84 @@ public class PersonInfoController {
     public String deleteUser(Model model, @ModelAttribute Person person) {
         competitionsFacade.deleteUser(person);
         return "/competitions_list";
+    }
+
+    @GetMapping
+    public String getAllUsersFromOwnTeam(Model model, @ModelAttribute Person person) {
+        if (person instanceof Member) {
+            model.addAttribute("person_type", "member");
+            model.addAttribute("partners", competitionsFacade.findAllMembersFromOwnTeam((Member) person));
+        } else if (person instanceof Captain) {
+            model.addAttribute("person_type", "captain");
+            model.addAttribute("partners", ((Captain) person).getMembers());
+        }
+        return "members_list";
+    }
+
+    @GetMapping
+    public String findAllRequestsForEnterOfMember(Model model, @ModelAttribute Person person) {
+        Member member = (Member) person;
+        model.addAttribute("requests", competitionsFacade.findAllRequestsForEnterOfMember(member));
+        return "/requests_list";
+    }
+
+    @GetMapping
+    public String leaveTeam(Model model, @ModelAttribute Person person) {
+        Member member = (Member) person;
+        competitionsFacade.leaveTeam(member);
+        return "/person_info";
+    }
+
+    @GetMapping
+    public String findAllCaptains(Model model) {
+        model.addAttribute("captains", competitionsFacade.findAllCaptains());
+        return "/captains_list";
+    }
+
+    @GetMapping
+    public String showAllRequestsToCaptain(Model model, @ModelAttribute Captain captain, @ModelAttribute Member member) {
+        model.addAttribute("requests", captain.getRequestsForEnter());
+        return "/requests_list";
+    }
+
+    @GetMapping
+    public String findAllCompetitionLeads(Model model) {
+        model.addAttribute("leads", competitionsFacade.findAllCompetitionLeads());
+        return "/leads_list";
+    }
+
+    @PostMapping
+    public String addCompetition(Model model, @ModelAttribute Person person, @ModelAttribute String competitionName,
+                                 @ModelAttribute String competitionDescription, @ModelAttribute String competitionReward) {
+        CompetitionLead lead = (CompetitionLead) person;
+        competitionsFacade.addCompetition(lead, competitionName, competitionDescription, competitionReward);
+        renderPersonCard(model, lead.getPersonNickName());
+        return "/person_info";
+    }
+
+    @PostMapping
+    public String changeCompetition(Model model, @ModelAttribute Person person, @ModelAttribute String competitionName,
+                                    @ModelAttribute String competitionDescription, @ModelAttribute String competitionReward) {
+        CompetitionLead lead = (CompetitionLead) person;
+        competitionsFacade.changeCompetition(lead, competitionName, competitionDescription, competitionReward);
+        renderPersonCard(model, lead.getPersonNickName());
+        return "/person_info";
+    }
+
+    @PostMapping
+    public String deleteAllCompetitions(Model model, @ModelAttribute Person person) {
+        CompetitionLead lead = (CompetitionLead) person;
+        competitionsFacade.deleteAllCompetitions(lead);
+        renderPersonCard(model, lead.getPersonNickName());
+        return "/person_info";
+    }
+
+    @PostMapping
+    public String deleteCompetition(Model model, @ModelAttribute Person person, @PathVariable Integer competitionId) {
+        CompetitionLead lead = (CompetitionLead) person;
+        competitionsFacade.deleteCompetition(lead, competitionId);
+        renderPersonCard(model, lead.getPersonNickName());
+        return "/person_info";
     }
 
     private boolean renderPersonCard(Model uiModel, String personNicName) {

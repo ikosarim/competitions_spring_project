@@ -19,26 +19,26 @@ public class RequestForEnterFormController {
     @Autowired
     CompetitionsFacade competitionsFacade;
 
-    @PostMapping
+//    @PostMapping
     public String createRequestToTeam(Model model, @ModelAttribute Captain captain, @ModelAttribute Member member,
                                       @ModelAttribute String description) {
         model.addAttribute("person_type", captain);
         return "/person_info";
     }
 
-    @GetMapping
+//    @GetMapping
     public String cancelRequestToEnterInTeam(Model model, @PathVariable Integer requestId, @ModelAttribute Member member) {
         competitionsFacade.cancelRequestToEnterInTeam(requestId, member);
         return "/person_info";
     }
 
-    @GetMapping
+//    @GetMapping
     public String acceptMemberEnterToCaptain(Model model, @ModelAttribute Captain captain, @PathVariable Integer requestId) {
         competitionsFacade.acceptMemberEnterToCaptain(captain, requestId);
         return "/person_info";
     }
 
-    @GetMapping
+//    @GetMapping
     public String declineMemberEnterToCaptain(@ModelAttribute Captain captain, @PathVariable Integer requestId) {
         competitionsFacade.declineMemberEnterToCaptain(captain, requestId);
         return "/person_info";

@@ -9,11 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
-@Controller("/registration")
+@Controller
+@RequestMapping("/registration")
 @ComponentScan(value = "com.competitions.facade")
 public class RegistrationController {
 
@@ -22,16 +23,16 @@ public class RegistrationController {
 
     @GetMapping
     public String getRegistrationForm() {
-        return "/registration";
+        return "/pages/registration";
     }
 
-    @PostMapping
+//    @PostMapping
     public String getUserRegistrationForm(Model model, @ModelAttribute UserRoleEnum role) {
         model.addAttribute("userRole", role);
         return "/registration";
     }
 
-    @PostMapping
+//    @PostMapping
     public String createUser(Model model,
                              @ModelAttribute String memberDegree,
                              @ModelAttribute String captainTeamName, @ModelAttribute Double captainExperience,
@@ -47,6 +48,6 @@ public class RegistrationController {
             // Вывести сообщение об ошибке
         }
         model.addAttribute("person", person);
-        return "person_info";
+        return "/person_info";
     }
 }

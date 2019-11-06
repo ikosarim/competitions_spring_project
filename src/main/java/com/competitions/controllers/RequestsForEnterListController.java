@@ -17,7 +17,8 @@ public class RequestsForEnterListController {
     @Autowired
     CompetitionsFacade competitionsFacade;
 
-    @GetMapping(value = "/${idRequest}")
+//    @GetMapping
+//    @GetMapping(value = "/${idRequest}")
     public String showRequestToEnter(Model model, @ModelAttribute Captain captain, @PathVariable Integer requestId) {
         competitionsFacade.showRequestToCaptain(captain, requestId);
         return "/request_form";

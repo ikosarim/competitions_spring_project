@@ -15,7 +15,8 @@ public class LeadListController {
     @Autowired
     CompetitionsFacade competitionsFacade;
 
-    @GetMapping(value = "/${idLead}")
+//    @GetMapping
+//    @GetMapping(value = "/${idLead}")
     public String getCaptainInfo(Model model, @PathVariable Integer idLead) {
         model.addAttribute("lead", competitionsFacade.getCaptainById(idLead));
         return "/person_info";

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/competitions_list")
 @ComponentScan(value = "com.competitions.facade")
-public class CompetitionsController {
+public class CompetitionListController {
 
     @Autowired
     CompetitionsFacade competitionsFacade;
@@ -25,19 +25,22 @@ public class CompetitionsController {
         return "/competitions_list";
     }
 
-    @GetMapping(value = "/{idCompetition}")
+//    @GetMapping
+//    @GetMapping(value = "/{idCompetition}")
     public String getCompetitionInfo(Model uiModel, @PathVariable Integer idCompetition) {
         uiModel.addAttribute("competition", competitionsFacade.getCompetitionInfo(idCompetition));
         return "/competition_info";
     }
 
-    @GetMapping(value = "/{idCompetition}")
+//    @GetMapping
+//    @GetMapping(value = "/{idCompetition}")
     public String takePartInTheCompetition(Model model, @ModelAttribute Captain captain, @PathVariable Integer competitionId) {
         competitionsFacade.takePartInTheCompetition(captain, competitionId);
         return "/competition_info";
     }
 
-    @GetMapping(value = "/{idCompetition}")
+//    @GetMapping
+//    @GetMapping(value = "/{idCompetition}")
     public String leaveTheCompetition(Model model, @ModelAttribute Captain captain, @PathVariable Integer competitionId) {
         competitionsFacade.leaveTheCompetition(captain, competitionId);
         return "/competition_info";

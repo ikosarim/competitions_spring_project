@@ -19,13 +19,14 @@ public class MembersListController {
     @Autowired
     CompetitionsFacade competitionsFacade;
 
-    @GetMapping(value = "/{idPerson}")
+//    @GetMapping
+//    @GetMapping(value = "/{idPerson}")
     public String getMemberInfo(Model model, @ModelAttribute Person person, @PathVariable Integer idPerson) {
         model.addAttribute("person", competitionsFacade.findMemberFromOwnTeamById((Member) person, idPerson));
         return "/person_info";
     }
 
-    @GetMapping
+//    @GetMapping
     public String deleteMemberFromTeam(Model model, @ModelAttribute Captain captain, @PathVariable Integer memberId) {
         competitionsFacade.deleteMemberFromCaptain(captain, memberId);
         return "/members_list";

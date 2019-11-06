@@ -2,11 +2,18 @@ package com.competitions.entities;
 
 public enum UserRoleEnum {
 
-    MEMBER,
-    CAPTAIN,
-    LEAD,
-    GUEST;
+    GUEST("Guest"),
+    MEMBER("Member"),
+    CAPTAIN("Captain"),
+    LEAD("Lead");
 
-    UserRoleEnum() {
+    private final String displayValue;
+
+    UserRoleEnum(String displayValue) {
+        this.displayValue = displayValue;
+    }
+
+    public String getDisplayValue() {
+        return displayValue;
     }
 }

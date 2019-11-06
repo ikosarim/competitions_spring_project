@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{fragments/layout}">
+    <head>
+        <meta charset="UTF-8">
+        <title>Регистрация нового пользователя</title>
+    </head>
+    <body>
+        <div layout:fragment="content" th:remove="tag">
+            <div align="center">
+                <h1>Регистрация нового пользователя</h1>
+                <select name="role">
+                    <option th:each="roleOpt : ${T(com.competitions.entities.UserRoleEnum).values()}"
+                            th:value="${roleOpt}" th:text="${roleOpt}"></option>
+                </select>
+<!--                <select name="role">-->
+<!--                    <option th:each="choisenRole : ${T(com.competitions.entities.UserRoleEnum).values()}"-->
+<!--                    th:value="${choisenRole}" th:text="${choisenRole.getDisplayValue()}"></option>-->
+<!--                </select>-->
+<!--                <div th:if="${widget.role != T(com.competitions.entities.UserRoleEnum).GUEST}">-->
+<!--                    <h1>BIG TEXT DATA</h1>-->
+<!--                </div>-->
+            </div>
+        </div>
+    </body>
+</html>

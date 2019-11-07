@@ -26,13 +26,13 @@ public class RegistrationController {
         return "/pages/registration";
     }
 
-//    @PostMapping
+    //    @PostMapping
     public String getUserRegistrationForm(Model model, @ModelAttribute UserRoleEnum role) {
         model.addAttribute("userRole", role);
         return "/registration";
     }
 
-//    @PostMapping
+    //    @PostMapping
     public String createUser(Model model,
                              @ModelAttribute String memberDegree,
                              @ModelAttribute String captainTeamName, @ModelAttribute Double captainExperience,
@@ -40,14 +40,14 @@ public class RegistrationController {
                              @ModelAttribute String personName, @ModelAttribute String personSurname, @ModelAttribute String personNickName,
                              @ModelAttribute int passportSeries, @ModelAttribute int passportNumber,
                              @ModelAttribute int dayOfDate, @ModelAttribute int monthOfDate, @ModelAttribute int yearOfDate,
-                             @ModelAttribute List<String> phoneNums){
+                             @ModelAttribute List<String> phoneNums) {
         Person person = competitionsFacade.createPerson(memberDegree, captainTeamName, captainExperience,
                 leadExperience, leadCertificate, leadSpecialization, personName, personSurname, personNickName,
                 passportSeries, passportNumber, dayOfDate, monthOfDate, yearOfDate, phoneNums);
-        if (person == null){
-            // Вывести сообщение об ошибке
+        if (person == null) {
+            return "/pages/registration";
         }
         model.addAttribute("person", person);
-        return "/person_info";
+        return "/pages/person_info";
     }
 }

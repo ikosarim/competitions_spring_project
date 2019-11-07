@@ -1,27 +1,93 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{fragments/layout}">
+      xmlns="http://www.w3.org/1999/html">
     <head>
         <meta charset="UTF-8">
         <title>Регистрация нового пользователя</title>
+        <script type="text/javascript" th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
+        <script type="text/javascript" th:src="@{/templates/js/RegistrationRender.js}"></script>
     </head>
     <body>
-        <div layout:fragment="content" th:remove="tag">
+        <div id="user_role" layout:fragment="content" th:remove="tag">
             <div align="center">
                 <h1>Регистрация нового пользователя</h1>
-                <select name="role">
-                    <option th:each="roleOpt : ${T(com.competitions.entities.UserRoleEnum).values()}"
-                            th:value="${roleOpt}" th:text="${roleOpt}"></option>
-                </select>
-<!--                <select name="role">-->
-<!--                    <option th:each="choisenRole : ${T(com.competitions.entities.UserRoleEnum).values()}"-->
-<!--                    th:value="${choisenRole}" th:text="${choisenRole.getDisplayValue()}"></option>-->
-<!--                </select>-->
-<!--                <div th:if="${widget.role != T(com.competitions.entities.UserRoleEnum).GUEST}">-->
-<!--                    <h1>BIG TEXT DATA</h1>-->
-<!--                </div>-->
+                <p2>Выберете роль нового юзера</p2>
+                <div id="choose_role" align="center">
+                    <select name="role">
+                        <option th:each="roleOpt : ${T(com.competitions.entities.UserRoleEnum).values()}"
+                                th:value="${roleOpt}" th:text="${roleOpt.getDisplayValue()}"></option>
+                    </select>
+                    <button id="choice_role">Выбрать</button>
+                </div>
             </div>
+        </div>
+        </br>
+
+        <div id="user_registration_fields">
+            <form name="user_fields" method="post" align="center">
+                <div id="member_special_data" hidden="true">
+                    <label for="member_degree">Сепень участника</label>
+                    <input id="member_degree" type="text" style="width: 150px">
+                </div>
+                </br>
+
+                <div id="captain_special_data" hidden="true">
+                    <label for="captain_team_name">Название команды</label>
+                    <input id="captain_team_name" type="text" style="width: 150px">
+                    <label for="captain_experience">Опыт (в годах)</label>
+                    <input id="captain_experience" type="number" style="width: 50px">
+                </div>
+                </br>
+
+                <div id="lead_special_data" hidden="true">
+                    <label for="lead_experience">Опыт (в годах)</label>
+                    <input id="lead_experience" type="number" style="width: 50px">
+                    <label for="lead_certificates">Сертификаты</label>
+                    <input id="lead_certificates" type="text" style="width: 150px">
+                    <label for="lead_specialization">Специализация</label>
+                    <input id="lead_specialization" type="text" style="width: 30px">
+                </div>
+                </br>
+
+                <div id="common_data" hidden="true">
+                    <label for="person_name">Имя</label>
+                    <input id="person_name" type="text" style="width: 150px">
+                    <label for="person_surname">Фамилия</label>
+                    <input id="person_surname" type="text" style="width: 150px">
+                    <label for="person_nick_name">Ник</label>
+                    <input id="person_nick_name" type="text" style="width: 150px">
+                </div>
+                </br>
+
+                <div id="passport_data" hidden="true">
+                    <div id="main_data">
+                        <label for="passport_series">Серия паспорта</label>
+                        <input id="passport_series" type="number" style="width: 50px">
+                        <label for="passport_number">Номер паспорта</label>
+                        <input id="passport_number" type="number" style="width: 50px">
+                    </div>
+                    </br>
+                    <div id="date_of_issue">
+                        <label for="day_of_date">День выдачи паспорта</label>
+                        <input id="day_of_date" type="number" style="width: 50px">
+                        <label for="month_of_date">Номер месяца выдачи паспорта</label>
+                        <input id="month_of_date" type="number" style="width: 50px">
+                        <label for="year_of_date">Год выдачи паспорта</label>
+                        <input id="year_of_date" type="number" style="width: 50px">
+                    </div>
+                    </br>
+                </div>
+                </br>
+
+                <div id="phones" hidden="true">
+                    <label for="phone_nums">Номера телефонов</label>
+                    <input id="phone_nums" type="tel" style="width: 80px">
+                </div>
+                </br>
+
+                <button id="sendData" hidden="true">Отправить</button>
+            </form>
         </div>
     </body>
 </html>

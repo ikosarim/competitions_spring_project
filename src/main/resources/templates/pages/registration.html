@@ -5,7 +5,6 @@
     <head>
         <meta charset="UTF-8">
         <title>Регистрация нового пользователя</title>
-        <script type="text/javascript" th:src="@{/webjars/jquery/3.3.1/jquery.min.js}"></script>
         <script type="text/javascript" th:src="@{/templates/js/RegistrationRender.js}"></script>
     </head>
     <body>
@@ -26,13 +25,13 @@
 
         <div id="user_registration_fields">
             <form name="user_fields" method="post" align="center">
-                <div id="member_special_data" hidden="true">
+                <div id="member_special_data">
                     <label for="member_degree">Сепень участника</label>
                     <input id="member_degree" type="text" style="width: 150px">
                 </div>
                 </br>
 
-                <div id="captain_special_data" hidden="true">
+                <div id="captain_special_data">
                     <label for="captain_team_name">Название команды</label>
                     <input id="captain_team_name" type="text" style="width: 150px">
                     <label for="captain_experience">Опыт (в годах)</label>
@@ -40,7 +39,7 @@
                 </div>
                 </br>
 
-                <div id="lead_special_data" hidden="true">
+                <div id="lead_special_data">
                     <label for="lead_experience">Опыт (в годах)</label>
                     <input id="lead_experience" type="number" style="width: 50px">
                     <label for="lead_certificates">Сертификаты</label>
@@ -50,7 +49,7 @@
                 </div>
                 </br>
 
-                <div id="common_data" hidden="true">
+                <div id="common_data">
                     <label for="person_name">Имя</label>
                     <input id="person_name" type="text" style="width: 150px">
                     <label for="person_surname">Фамилия</label>
@@ -60,12 +59,12 @@
                 </div>
                 </br>
 
-                <div id="passport_data" hidden="true">
+                <div id="passport_data">
                     <div id="main_data">
                         <label for="passport_series">Серия паспорта</label>
                         <input id="passport_series" type="number" style="width: 50px">
                         <label for="passport_number">Номер паспорта</label>
-                        <input id="passport_number" type="number" style="width: 50px">
+                        <input id="passport_number" type="number" style="width: 80px">
                     </div>
                     </br>
                     <div id="date_of_issue">
@@ -80,14 +79,16 @@
                 </div>
                 </br>
 
-                <div id="phones" hidden="true">
+                <div id="phones">
                     <label for="phone_nums">Номера телефонов</label>
-                    <input id="phone_nums" type="tel" style="width: 80px">
+                    <input id="phone_nums" type="tel" style="width: 100px">
                 </div>
                 </br>
 
-                <button id="sendData" hidden="true">Отправить</button>
+                <button id="sendData" >Отправить</button>
             </form>
         </div>
+
+        <p><a href="/" th:href="@{/}">Back to home page</a></p>
     </body>
 </html>

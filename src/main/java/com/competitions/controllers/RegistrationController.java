@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -26,14 +27,9 @@ public class RegistrationController {
         return "/pages/registration";
     }
 
-    //    @PostMapping
-    public String getUserRegistrationForm(Model model, @ModelAttribute UserRoleEnum role) {
-        model.addAttribute("userRole", role);
-        return "/registration";
-    }
-
-    //    @PostMapping
+    @PostMapping
     public String createUser(Model model,
+                             @ModelAttribute String personRole,
                              @ModelAttribute String memberDegree,
                              @ModelAttribute String captainTeamName, @ModelAttribute Double captainExperience,
                              @ModelAttribute Double leadExperience, @ModelAttribute String leadCertificate, @ModelAttribute String leadSpecialization,
@@ -41,7 +37,7 @@ public class RegistrationController {
                              @ModelAttribute int passportSeries, @ModelAttribute int passportNumber,
                              @ModelAttribute int dayOfDate, @ModelAttribute int monthOfDate, @ModelAttribute int yearOfDate,
                              @ModelAttribute List<String> phoneNums) {
-        Person person = competitionsFacade.createPerson(memberDegree, captainTeamName, captainExperience,
+        Person person = competitionsFacade.createPerson(personRole, memberDegree, captainTeamName, captainExperience,
                 leadExperience, leadCertificate, leadSpecialization, personName, personSurname, personNickName,
                 passportSeries, passportNumber, dayOfDate, monthOfDate, yearOfDate, phoneNums);
         if (person == null) {

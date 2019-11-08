@@ -2,6 +2,7 @@ package com.competitions.facade;
 
 import com.competitions.entities.*;
 import com.competitions.services.*;
+import com.competitions.widgets.RegistrationWidget;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -100,6 +101,11 @@ public class CompetitionsFacade {
         } else if (person instanceof CompetitionLead) {
             leadService.removePerson((CompetitionLead) person);
         }
+    }
+
+    public Person createPerson(RegistrationWidget widget){
+        System.out.println(widget.toString());
+        return null;
     }
 
     public Person createPerson(String personRole,

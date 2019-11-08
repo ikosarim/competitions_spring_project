@@ -3,6 +3,7 @@ package com.competitions.controllers;
 import com.competitions.entities.Person;
 import com.competitions.entities.UserRoleEnum;
 import com.competitions.facade.CompetitionsFacade;
+import com.competitions.widgets.RegistrationWidget;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Controller;
@@ -28,18 +29,11 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String createUser(Model model,
-                             @ModelAttribute String personRole,
-                             @ModelAttribute String memberDegree,
-                             @ModelAttribute String captainTeamName, @ModelAttribute Double captainExperience,
-                             @ModelAttribute Double leadExperience, @ModelAttribute String leadCertificate, @ModelAttribute String leadSpecialization,
-                             @ModelAttribute String personName, @ModelAttribute String personSurname, @ModelAttribute String personNickName,
-                             @ModelAttribute int passportSeries, @ModelAttribute int passportNumber,
-                             @ModelAttribute int dayOfDate, @ModelAttribute int monthOfDate, @ModelAttribute int yearOfDate,
-                             @ModelAttribute List<String> phoneNums) {
-        Person person = competitionsFacade.createPerson(personRole, memberDegree, captainTeamName, captainExperience,
-                leadExperience, leadCertificate, leadSpecialization, personName, personSurname, personNickName,
-                passportSeries, passportNumber, dayOfDate, monthOfDate, yearOfDate, phoneNums);
+    public String createUser(Model model, @ModelAttribute RegistrationWidget registrationWidget) {
+        Person person = competitionsFacade.createPerson(registrationWidget);
+//        Person person = competitionsFacade.createPerson(personRole, memberDegree, captainTeamName, captainExperience,
+//                leadExperience, leadCertificate, leadSpecialization, personName, personSurname, personNickName,
+//                passportSeries, passportNumber, dayOfDate, monthOfDate, yearOfDate, phoneNums);
         if (person == null) {
             return "/pages/registration";
         }

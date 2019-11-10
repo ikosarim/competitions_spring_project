@@ -2,111 +2,101 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 
-<script th:fragment="import_listener">
-
-</script>
-
-<div th:fragment="data_forms">
-    <div id="role_selection" align="center">
-        <h1>Регистрация нового пользователя</h1>
-        <p2>Выберете роль нового юзера</p2>
-        </br>
-        <select id="role" name="role_name">
-            <option th:each="roleOpt : ${T(com.competitions.entities.UserRoleEnum).values()}"
-                    th:value="${roleOpt}" th:text="${roleOpt.getDisplayValue()}"></option>
-        </select>
-        <button id="choice_role" onclick="renderForm()">Выбрать</button>
-    </div>
-    </br>
-
-    <div id="member_special_data" style="display: none">
-        <label for="member_degree">Сепень участника</label>
-        <input id="member_degree" type="text" style="width: 150px">
-    </div>
-    </br>
-
-    <div id="captain_special_data" style="display: none">
-        <label for="captain_team_name">Название команды</label>
-        <input id="captain_team_name" type="text" style="width: 150px">
-        <label for="captain_experience">Опыт (в годах)</label>
-        <input id="captain_experience" type="number" style="width: 50px">
-    </div>
-    </br>
-
-    <div id="lead_special_data" style="display: none">
-        <label for="lead_experience">Опыт (в годах)</label>
-        <input id="lead_experience" type="number" style="width: 50px">
-        <label for="lead_certificates">Сертификаты</label>
-        <input id="lead_certificates" type="text" style="width: 150px">
-        <label for="lead_specialization">Специализация</label>
-        <input id="lead_specialization" type="text" style="width: 30px">
-    </div>
-    </br>
-
-    <div id="common_data" style="display: none">
-        <div id="person_data">
-            <label for="person_name">Имя</label>
-            <input id="person_name" type="text" style="width: 150px">
-            <label for="person_surname">Фамилия</label>
-            <input id="person_surname" type="text" style="width: 150px">
-            <label for="person_nick_name">Ник</label>
-            <input id="person_nick_name" type="text" style="width: 150px">
+<div th:fragment="data_forms" align="center">
+    <form action="#" th:action="@{/registration/select_role}"  th:object="${registrationWidget}" method="get">
+        <div id="role_selection">
+            <h1>Регистрация нового пользователя</h1>
+            <p2>Выберете роль нового юзера</p2>
+            </br>
+            <select id="role" name="role_name" th:field="*{role}">
+                <option th:each="role : ${T(com.competitions.entities.UserRoleEnum).values()}"
+                        th:value="${role}" th:text="${role.getDisplayValue()}"></option>
+            </select>
+            <button id="choice_role" type="submit">Выбрать</button>
         </div>
         </br>
+    </form>
 
-        <div id="passport_data">
-            <div id="main_data">
-                <label for="passport_series">Серия паспорта</label>
-                <input id="passport_series" type="number" style="width: 50px">
-                <label for="passport_number">Номер паспорта</label>
-                <input id="passport_number" type="number" style="width: 80px">
+    <form action="#" th:action="@{/registration}" method="post">
+        <div th:if="${registrationWidget.role != null}">
+            <div id="member_special_data"
+                 th:if="${registrationWidget.role == T(com.competitions.entities.UserRoleEnum).MEMBER}">
+                <label for="member_degree">Сепень участника</label>
+                <input id="member_degree" type="text" style="width: 150px" th:field="*{registrationWidget.memberDegree}"/>
             </div>
             </br>
-            <div id="date_of_issue">
-                <label for="day_of_date">День выдачи паспорта</label>
-                <input id="day_of_date" type="number" style="width: 50px">
-                <label for="month_of_date">Номер месяца выдачи паспорта</label>
-                <input id="month_of_date" type="number" style="width: 50px">
-                <label for="year_of_date">Год выдачи паспорта</label>
-                <input id="year_of_date" type="number" style="width: 50px">
+
+            <div id="captain_special_data"
+                 th:if="${registrationWidget.role == T(com.competitions.entities.UserRoleEnum).CAPTAIN}">
+                <label for="captain_team_name">Название команды</label>
+                <input id="captain_team_name" type="text" style="width: 150px" th:field="*{registrationWidget.captainTeamName}"/>
+                <label for="captain_experience">Опыт (в годах)</label>
+                <input id="captain_experience" type="number" style="width: 50px" th:field="*{registrationWidget.captainExperience}"/>
             </div>
             </br>
-        </div>
-        </br>
 
-        <div id="phones">
-            <label for="phone_nums">Номера телефонов</label>
-            <input id="phone_nums" type="tel" style="width: 100px">
-        </div>
-        </br>
+            <div id="lead_special_data"
+                 th:if="${registrationWidget.role == T(com.competitions.entities.UserRoleEnum).LEAD}">
+                <label for="lead_experience">Опыт (в годах)</label>
+                <input id="lead_experience" type="number" style="width: 50px" th:field="*{registrationWidget.leadExperience}"/>
+                <label for="lead_certificates">Сертификаты</label>
+                <textarea id="lead_certificates" th:field="*{registrationWidget.leadCertificate}"></textarea>
+                <label for="lead_specialization">Специализация</label>
+                <input id="lead_specialization" type="text" style="width: 150px" th:field="*{registrationWidget.leadSpecialization}"/>
+            </div>
+            </br>
 
-        <button id="sendData">Отправить</button>
-    </div>
+            <div id="common_data" th:if="${registrationWidget.role != T(com.competitions.entities.UserRoleEnum).GUEST}">
+                <div id="person_data">
+                    <label for="person_name">Имя</label>
+                    <input id="person_name" type="text" style="width: 150px" th:field="*{registrationWidget.personName}"/>
+                    <label for="person_surname">Фамилия</label>
+                    <input id="person_surname" type="text" style="width: 150px" th:field="*{registrationWidget.personSurname}"/>
+                    <label for="person_nick_name">Ник</label>
+                    <input id="person_nick_name" type="text" style="width: 150px" th:field="*{registrationWidget.personNickName}"/>
+                </div>
+                </br>
+
+                <div id="passport_data">
+                    <div id="main_data">
+                        <label for="passport_series">Серия паспорта</label>
+                        <input id="passport_series" type="number" style="width: 50px" th:field="*{registrationWidget.passportSeries}"/>
+                        <label for="passport_number">Номер паспорта</label>
+                        <input id="passport_number" type="number" style="width: 80px" th:field="*{registrationWidget.passportNumber}"/>
+                    </div>
+                    </br>
+                    <div id="date_of_issue">
+                        <label for="day_of_date">День выдачи паспорта</label>
+                        <input id="day_of_date" type="number" style="width: 50px" th:field="*{registrationWidget.dayOfIssue}"/>
+                        <label for="month_of_date">Номер месяца выдачи паспорта</label>
+                        <input id="month_of_date" type="number" style="width: 50px" th:field="*{registrationWidget.monthOfIssue}"/>
+                        <label for="year_of_date">Год выдачи паспорта</label>
+                        <input id="year_of_date" type="number" style="width: 50px" th:field="*{registrationWidget.yearOfIssue}"/>
+                    </div>
+                    </br>
+                </div>
+                </br>
+
+                <div id="phones">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Номера телефонов</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><input type="tel" style="width: 150px" th:field="*{registrationWidget.phoneNums[0]}"/></td></tr>
+                            <tr><td><input type="tel" style="width: 150px" th:field="*{registrationWidget.phoneNums[1]}"/></td></tr>
+                            <tr><td><input type="tel" style="width: 150px" th:field="*{registrationWidget.phoneNums[2]}"/></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                </br>
+
+                <button id="sendData" type="submit">Отправить</button>
+            </div>
+        </div>
+    </form>
 </div>
-
-<script>
-    function renderForm() {
-        println('asdfasdf')
-        var select = document.getElementById('role').value;
-        var string =
-            `
-                <p>Бла-бла</p>
-                <p>${select}</p>
-                <p>Бла-бла</p>
-            `
-        if (select !== 'Guest') {
-            if (select === 'Member') {
-                document.getElementById('member_special_data').style.display = 'block'
-            } else if (select === 'Captain') {
-                document.getElementById('captain_special_data').style.display = 'block'
-            } else if (select === 'Lead') {
-                document.getElementById('lead_special_data').style.display = 'block'
-            }
-            document.getElementById('common_data').style.display = 'block'
-        }
-    }
-</script>
-
-<!--https://stackoverflow.com/questions/55548491/uncaught-referenceerror-submittoapi-is-not-defined-at-htmlbuttonelement-onclick-->
 
 </html>

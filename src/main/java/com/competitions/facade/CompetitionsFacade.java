@@ -103,131 +103,133 @@ public class CompetitionsFacade {
         }
     }
 
-    public Person createPerson(RegistrationWidget widget){
-        System.out.println(widget.toString());
-        return null;
-    }
-
-    public Person createPerson(String personRole,
-                               String memberDegree,
-                               String captainTeamName, double captainExperience,
-                               double leadExperience, String leadCertificate, String leadSpecialization,
-                               String personName, String personSurname, String personNickName,
-                               int passportSeries, int passportNumber,
-                               int dayOfDate, int monthOfDate, int yearOfDate,
-                               List<String> phoneNums) {
-        String[] phones;
-        if (phoneNums.isEmpty() || phoneNums == null) {
-            phones = new String[0];
-        } else {
-            phones = new String[phoneNums.size()];
-            int index = 0;
-            for (String num : phoneNums) {
-                phones[index] = num;
-                index++;
-            }
-        }
-        switch (personRole) {
-            case "Member":
-                return memberService.createNewPerson(memberDegree, personName, personSurname, personNickName,
-                        passportSeries, passportNumber, dayOfDate, monthOfDate, yearOfDate, phones);
-            case "Captain":
-                return captainService.createNewPerson(captainTeamName, captainExperience, personName, personSurname, personNickName,
-                        passportSeries, passportNumber, dayOfDate, monthOfDate, yearOfDate, phones);
-            case "Lead":
-                return leadService.createNewPerson(leadExperience, leadCertificate, leadSpecialization,
-                        personName, personSurname, personNickName, passportSeries, passportNumber,
-                        dayOfDate, monthOfDate, yearOfDate, phones);
+    public Person createPerson(RegistrationWidget widget) {
+        String[] phones = createPhonesArray(widget.getPhoneNums());
+        switch (widget.getRole()) {
+            case MEMBER:
+                return memberService.createNewPerson(widget.getMemberDegree(),
+                        widget.getPersonName(), widget.getPersonSurname(), widget.getPersonNickName(),
+                        widget.getPassportSeries(), widget.getPassportNumber(),
+                        widget.getDayOfIssue(), widget.getMonthOfIssue(), widget.getYearOfIssue(),
+                        phones);
+            case CAPTAIN:
+                return captainService.createNewPerson(widget.getCaptainTeamName(), widget.getCaptainExperience(),
+                        widget.getPersonName(), widget.getPersonSurname(), widget.getPersonNickName(),
+                        widget.getPassportSeries(), widget.getPassportNumber(),
+                        widget.getDayOfIssue(), widget.getMonthOfIssue(), widget.getYearOfIssue(),
+                        phones);
+            case LEAD:
+                return leadService.createNewPerson(widget.getLeadExperience(), widget.getLeadCertificate(), widget.getLeadSpecialization(),
+                        widget.getPersonName(), widget.getPersonSurname(), widget.getPersonNickName(),
+                        widget.getPassportSeries(), widget.getPassportNumber(),
+                        widget.getDayOfIssue(), widget.getMonthOfIssue(), widget.getYearOfIssue(),
+                        phones);
             default:
                 return null;
         }
     }
 
-        public List<Member> findAllMembersFromOwnTeam (Member member){
-            return memberService.findAllMembersFromOwnTeam(member);
+    private String[] createPhonesArray(List<String> phoneNums) {
+        String[] phones;
+        if (phoneNums.isEmpty()) {
+            phones = new String[0];
+        } else {
+            phones = new String[phoneNums.size()];
+            int index = 0;
+            for (String num : phoneNums) {
+                if ("".equals(num)) continue;
+                phones[index] = num;
+                index++;
+            }
         }
-
-        public Member findMemberFromOwnTeamById (Member member, Integer memberId){
-            return memberService.findMemberFromOwnTeamById(member, memberId);
-        }
-
-        public Set<RequestForEnter> findAllRequestsForEnterOfMember (Member member){
-            return memberService.findAllRequestsForEnterOfMember(member);
-        }
-
-        public Member leaveTeam (Member member){
-            return memberService.leaveTeam(member);
-        }
-
-        public Member createRequestForEnterInTeam (Captain captain, Member member, String description){
-            return memberService.createRequestForEnterInTeam(captain, member, description);
-        }
-
-        public Member cancelRequestToEnterInTeam (Integer requestId, Member member){
-            return memberService.cancelRequestForEnter(requestId, member);
-        }
-
-        public List<Captain> findAllCaptains () {
-            return captainService.getAllCaptains();
-        }
-
-        public Captain getCaptainById (Integer id){
-            return captainService.getCaptainById(id);
-        }
-
-        public Captain showRequestToCaptain (Captain captain, Integer requestId){
-            return captainService.showRequestToCaptain(captain, requestId);
-        }
-
-        public Captain acceptMemberEnterToCaptain (Captain captain, Integer requestId){
-            return captainService.acceptMemberEnterToCaptain(captain, requestId);
-        }
-
-        public Captain declineMemberEnterToCaptain (Captain captain, Integer requestId){
-            return captainService.declineMemberEnterToCaptain(captain, requestId);
-        }
-
-        public Captain deleteMemberFromCaptain (Captain captain, Integer memberId){
-            Member member = memberService.findMemberById(memberId);
-            return captainService.deleteMemberFromCaptain(captain, member);
-        }
-
-        public Captain takePartInTheCompetition (Captain captain, Integer competitionId){
-            Competition competition = competitionService.findCompetitionById(competitionId);
-            return captainService.takePartInTheCompetition(captain, competition);
-        }
-
-        public Captain leaveTheCompetition (Captain captain, Integer competitionId){
-            Competition competition = competitionService.findCompetitionById(competitionId);
-            return captainService.leaveTheCompetition(captain, competition);
-        }
-
-        public List<CompetitionLead> findAllCompetitionLeads () {
-            return leadService.getAllLeads();
-        }
-
-        public CompetitionLead getLeadById (Integer leadId){
-            return leadService.getLeadById(leadId);
-        }
-
-        public CompetitionLead addCompetition (CompetitionLead lead, String competitionName, String
-        competitionDescription,
-                String competitionReward){
-            return leadService.addNewCompetition(lead, competitionName, competitionDescription, competitionReward);
-        }
-
-        public CompetitionLead changeCompetition (CompetitionLead lead, String competitionName, String
-        competitionDescription,
-                String competitionReward){
-            return leadService.changeCompetition(lead, competitionName, competitionDescription, competitionReward);
-        }
-
-        public CompetitionLead deleteAllCompetitions (CompetitionLead lead){
-            return leadService.deleteAllCompetitions(lead);
-        }
-
-        public CompetitionLead deleteCompetition (CompetitionLead lead, Integer competitionId){
-            Competition competition = competitionService.findCompetitionById(competitionId);
-            return leadService.deleteCompetition(lead, competition.getCompetitionName());
-        }
+        return phones;
     }
+
+    public List<Member> findAllMembersFromOwnTeam(Member member) {
+        return memberService.findAllMembersFromOwnTeam(member);
+    }
+
+    public Member findMemberFromOwnTeamById(Member member, Integer memberId) {
+        return memberService.findMemberFromOwnTeamById(member, memberId);
+    }
+
+    public Set<RequestForEnter> findAllRequestsForEnterOfMember(Member member) {
+        return memberService.findAllRequestsForEnterOfMember(member);
+    }
+
+    public Member leaveTeam(Member member) {
+        return memberService.leaveTeam(member);
+    }
+
+    public Member createRequestForEnterInTeam(Captain captain, Member member, String description) {
+        return memberService.createRequestForEnterInTeam(captain, member, description);
+    }
+
+    public Member cancelRequestToEnterInTeam(Integer requestId, Member member) {
+        return memberService.cancelRequestForEnter(requestId, member);
+    }
+
+    public List<Captain> findAllCaptains() {
+        return captainService.getAllCaptains();
+    }
+
+    public Captain getCaptainById(Integer id) {
+        return captainService.getCaptainById(id);
+    }
+
+    public Captain showRequestToCaptain(Captain captain, Integer requestId) {
+        return captainService.showRequestToCaptain(captain, requestId);
+    }
+
+    public Captain acceptMemberEnterToCaptain(Captain captain, Integer requestId) {
+        return captainService.acceptMemberEnterToCaptain(captain, requestId);
+    }
+
+    public Captain declineMemberEnterToCaptain(Captain captain, Integer requestId) {
+        return captainService.declineMemberEnterToCaptain(captain, requestId);
+    }
+
+    public Captain deleteMemberFromCaptain(Captain captain, Integer memberId) {
+        Member member = memberService.findMemberById(memberId);
+        return captainService.deleteMemberFromCaptain(captain, member);
+    }
+
+    public Captain takePartInTheCompetition(Captain captain, Integer competitionId) {
+        Competition competition = competitionService.findCompetitionById(competitionId);
+        return captainService.takePartInTheCompetition(captain, competition);
+    }
+
+    public Captain leaveTheCompetition(Captain captain, Integer competitionId) {
+        Competition competition = competitionService.findCompetitionById(competitionId);
+        return captainService.leaveTheCompetition(captain, competition);
+    }
+
+    public List<CompetitionLead> findAllCompetitionLeads() {
+        return leadService.getAllLeads();
+    }
+
+    public CompetitionLead getLeadById(Integer leadId) {
+        return leadService.getLeadById(leadId);
+    }
+
+    public CompetitionLead addCompetition(CompetitionLead lead, String competitionName, String
+            competitionDescription,
+                                          String competitionReward) {
+        return leadService.addNewCompetition(lead, competitionName, competitionDescription, competitionReward);
+    }
+
+    public CompetitionLead changeCompetition(CompetitionLead lead, String competitionName, String
+            competitionDescription,
+                                             String competitionReward) {
+        return leadService.changeCompetition(lead, competitionName, competitionDescription, competitionReward);
+    }
+
+    public CompetitionLead deleteAllCompetitions(CompetitionLead lead) {
+        return leadService.deleteAllCompetitions(lead);
+    }
+
+    public CompetitionLead deleteCompetition(CompetitionLead lead, Integer competitionId) {
+        Competition competition = competitionService.findCompetitionById(competitionId);
+        return leadService.deleteCompetition(lead, competition.getCompetitionName());
+    }
+}

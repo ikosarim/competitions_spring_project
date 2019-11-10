@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -15,12 +16,12 @@ import java.util.List;
 public class RegistrationWidget {
 
     private UserRoleEnum role;
-    private String memberDegree = null;
-    private String captainTeamName = null;
-    private Double captainExperience = null;
-    private Double leadExperience = null;
-    private String leadCertificate = null;
-    private String leadSpecialization = null;
+    private String memberDegree;
+    private String captainTeamName;
+    private Double captainExperience;
+    private Double leadExperience;
+    private String leadCertificate;
+    private String leadSpecialization;
     private String personName;
     private String personSurname;
     private String personNickName;
@@ -29,5 +30,5 @@ public class RegistrationWidget {
     private Integer dayOfIssue;
     private Integer monthOfIssue;
     private Integer yearOfIssue;
-    private List<String> phoneNums;
+    private List<String> phoneNums = new ArrayList<>();
 }

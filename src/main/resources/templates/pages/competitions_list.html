@@ -1,49 +1,43 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <html>
-    <head>
-        <title>Competitions List</title>
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    </head>
-    <body class="w3-light-grey">
-        <div class="w3-container w3-blue-grey w3-opacity w3-right-align">
-            <h1>Super competitions!</h1>
-        </div>
+<head>
+    <title>Competitions List</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body class="w3-light-grey">
+<div class="w3-container w3-blue-grey w3-opacity w3-right-align">
+    <h1>Super competitions!</h1>
+</div>
 
-        <div class="w3-container w3-center w3-margin-bottom w3-padding">
-            <div>
-                <form method="post">
-                    <label>Person Nick Name:
-                        <input type="text" name="personNickName" style="width: 30%"><br/>
-                    </label>
-                    <button type="submit" class="w3-btn w3-green w3-round-large w3-margin-bottom">Submit</button>
-                </form>
-            </div>
-            <div class="w3-card-4">
-                <div class="w3-container w3-light-blue">
-                    <h2>Competitions</h2>
-                </div>
-                <div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Competition Name</th>
-                                <th>Competition Description</th>
-                                <th>Competition Reward</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <th:forEach items="${competitions}" var="competition">
-                                <tr>
-                                    <td>${competition.competitionName}</td>
-                                    <td>${competition.competitionDescription}</td>
-                                    <td>${competition.competitionReward}</td>
-                                </tr>
-                            </th:forEach>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+<div class="w3-container w3-center w3-margin-bottom w3-padding">
+    <div class="w3-card-4">
+        <div class="w3-container w3-light-blue">
+            <h2>Competitions</h2>
         </div>
-    </body>
+        <div>
+            <form action="#" th:action="@{/competitions_list}" th:object="${competitions}" method="get">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Competition Name</th>
+                        <th>Competition Description</th>
+                        <th>Competition Reward</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="competition : ${competitions}">
+                        <td th:text="${competition.competitionName}"/>
+                        <td th:text="${competition.competitionDescription}"/>
+                        <td th:text="${competition.competitionReward}"/>
+                        <td sec:authorize="isAuthenticated()">
+                            <button type="submit" name="infoOfCompetition" th:value="${competition.competitionName}">Информация</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
 </html>

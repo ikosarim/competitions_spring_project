@@ -1,9 +1,6 @@
 package com.competitions.services;
 
-import com.competitions.entities.Competition;
-import com.competitions.entities.CompetitionLead;
-import com.competitions.entities.Passport;
-import com.competitions.entities.Phone;
+import com.competitions.entities.*;
 import com.competitions.repos.LeadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -101,24 +98,33 @@ public class LeadServiceImpl implements LeadService {
     }
 
     @Override
-    public CompetitionLead createNewPerson(double leadExperience, String leadCertificates, String leadSpecialization,
+    public CompetitionLead createNewPerson(String login, String password, UserRoleEnum role,
+                                           double leadExperience, String leadCertificates, String leadSpecialization,
                                            String personName, String personSurname, String personNickName,
                                            int passportSeries, int passportNumber, int dayOfDate, int monthOfDate, int yearOfDate,
                                            String... phoneNumbers) throws IllegalArgumentException {
         String date = convertToYyyyMmDd(yearOfDate, monthOfDate, dayOfDate);
+        UserInfo userInfo = createUserInfo(login, password, role);
         Passport passport = createPassport(passportSeries, passportNumber, date);
         Set<Phone> phones = Stream.of(phoneNumbers).map(Phone::new).collect(toSet());
-        CompetitionLead lead = createLead(leadExperience, leadCertificates, leadSpecialization,
+        CompetitionLead lead = createLead(userInfo, leadExperience, leadCertificates, leadSpecialization,
                 personName, personSurname, personNickName, passport, phones);
         passport.setPerson(lead);
+        userInfo.setPerson(lead);
         phones.forEach(p -> p.setPerson(lead));
         return leadRepository.save(lead);
     }
 
-    private CompetitionLead createLead(double leadExperience, String leadCertificates, String leadSpecialization,
+    private UserInfo createUserInfo(String login, String password, UserRoleEnum role) {
+        return UserInfo.builder().login(login).password(password).role(role.getDisplayValue()).build();
+    }
+
+    private CompetitionLead createLead(UserInfo userInfo, double leadExperience, String leadCertificates,
+                                       String leadSpecialization,
                                        String personName, String personSurname, String personNickName,
                                        Passport passport, Set<Phone> phones) {
         return CompetitionLead.builder()
+                .userInfo(userInfo)
                 .leadExperience(leadExperience)
                 .leadCertificates(leadCertificates)
                 .leadSpecialization(leadSpecialization)

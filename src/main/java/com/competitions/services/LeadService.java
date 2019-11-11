@@ -1,6 +1,7 @@
 package com.competitions.services;
 
 import com.competitions.entities.CompetitionLead;
+import com.competitions.entities.UserRoleEnum;
 
 import java.util.List;
 
@@ -26,7 +27,8 @@ public interface LeadService {
 
     CompetitionLead deleteCompetition(CompetitionLead lead, String competitionName); //  +Controller -Lead
 
-    CompetitionLead createNewPerson(double leadExperience, String leadCertificates, String leadSpecialization,
+    CompetitionLead createNewPerson(String login, String password, UserRoleEnum role,
+                                    double leadExperience, String leadCertificates, String leadSpecialization,
                                     String personName, String personSurname, String personNickName,
                                     int passportSeries, int passportNumber, int dayOfDate, int monthOfDate, int yearOfDate,
                                     String... phoneNumbers) throws IllegalArgumentException; // +Controller -Lead

@@ -42,8 +42,12 @@ public abstract class Person {
     @OneToOne(mappedBy = "person", cascade = {PERSIST, REMOVE}, fetch = LAZY, orphanRemoval = true)
     private Passport passport;
 
-    public Person(String personName, String personSurname, String personNickName, Passport passport,
+    @OneToOne(mappedBy = "person", cascade = {PERSIST, REMOVE}, fetch = LAZY, orphanRemoval = true)
+    private UserInfo userInfo;
+
+    public Person(UserInfo userInfo, String personName, String personSurname, String personNickName, Passport passport,
                   Phone... phones) {
+        this.userInfo = userInfo;
         this.personName = personName;
         this.personSurname = personSurname;
         this.personNickName = personNickName;

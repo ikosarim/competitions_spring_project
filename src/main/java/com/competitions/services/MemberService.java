@@ -3,6 +3,7 @@ package com.competitions.services;
 import com.competitions.entities.Captain;
 import com.competitions.entities.Member;
 import com.competitions.entities.RequestForEnter;
+import com.competitions.entities.UserRoleEnum;
 
 import java.util.List;
 import java.util.Set;
@@ -25,10 +26,11 @@ public interface MemberService {
 
     Member leaveTeam(Member member); // +Controller -Member
 
-    Member createNewPerson(String memberDegree,
-                      String personName, String personSurname, String personNickName,
-                      int passportSeries, int passportNumber, int dayOfDate, int monthOfDate, int yearOfDate,
-                      String... phoneNumbers) throws IllegalArgumentException; // +Controller -Guest
+    Member createNewPerson(String login, String password, UserRoleEnum role,
+                           String memberDegree,
+                           String personName, String personSurname, String personNickName,
+                           int passportSeries, int passportNumber, int dayOfDate, int monthOfDate, int yearOfDate,
+                           String... phoneNumbers) throws IllegalArgumentException; // +Controller -Guest
 
     void removePerson(Member member); // +Controller -Member
 }

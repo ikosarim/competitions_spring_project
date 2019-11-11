@@ -2,22 +2,26 @@ package com.competitions.entities;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.*;
 
-@Entity
+@Entity(name = "user_info")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@PrimaryKeyJoinColumn(name = "id_user", referencedColumnName = "id_person")
 public class UserInfo {
-    @Column(name = "login")
+    @Id
+    @GeneratedValue
+    @Column(name = "id_user")
+    private Integer idUser;
+    @Column(name = "login", nullable = false, unique = true)
     private String login;
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
-    @Column(name = "role")
+    @Column(name = "role", nullable = false)
     private String role;
+    @OneToOne
+    @JoinColumn(name = "person_id", nullable = false)
+    private Person person;
 }

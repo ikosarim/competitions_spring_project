@@ -3,6 +3,7 @@ package com.competitions.services;
 import com.competitions.entities.Captain;
 import com.competitions.entities.Competition;
 import com.competitions.entities.Member;
+import com.competitions.entities.UserRoleEnum;
 
 import java.util.List;
 
@@ -27,7 +28,8 @@ public interface CaptainService {
 
     Captain leaveTheCompetition(Captain captain, Competition competition); // +Controller -Captain
 
-    Captain createNewPerson(String captainTeamName, double captainExperience,
+    Captain createNewPerson(String login, String password, UserRoleEnum role,
+                            String captainTeamName, double captainExperience,
                             String personName, String personSurname, String personNickName,
                             int passportSeries, int passportNumber, int dayOfDate, int monthOfDate, int yearOfDate,
                             String... phoneNumbers) throws IllegalArgumentException; // +Controller -Captain

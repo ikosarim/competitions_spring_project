@@ -37,9 +37,9 @@ public class Captain extends Person implements Serializable {
     private Set<Competition> competitionSet;
 
     @Builder
-    public Captain(String personName, String personSurname, String personNickName, Passport passport,
+    public Captain(UserInfo userInfo, String personName, String personSurname, String personNickName, Passport passport,
                    String captainTeamName, double captainExperience, Phone... phones) {
-        super(personName, personSurname, personNickName, passport, phones);
+        super(userInfo, personName, personSurname, personNickName, passport, phones);
         this.captainTeamName = captainTeamName;
         this.captainExperience = captainExperience;
         this.members = new HashSet<>();

@@ -107,19 +107,22 @@ public class CompetitionsFacade {
         String[] phones = createPhonesArray(widget.getPhoneNums());
         switch (widget.getRole()) {
             case MEMBER:
-                return memberService.createNewPerson(widget.getMemberDegree(),
+                return memberService.createNewPerson(widget.getLogin(), widget.getPassword(), widget.getRole(),
+                        widget.getMemberDegree(),
                         widget.getPersonName(), widget.getPersonSurname(), widget.getPersonNickName(),
                         widget.getPassportSeries(), widget.getPassportNumber(),
                         widget.getDayOfIssue(), widget.getMonthOfIssue(), widget.getYearOfIssue(),
                         phones);
             case CAPTAIN:
-                return captainService.createNewPerson(widget.getCaptainTeamName(), widget.getCaptainExperience(),
+                return captainService.createNewPerson(widget.getLogin(), widget.getPassword(), widget.getRole(),
+                        widget.getCaptainTeamName(), widget.getCaptainExperience(),
                         widget.getPersonName(), widget.getPersonSurname(), widget.getPersonNickName(),
                         widget.getPassportSeries(), widget.getPassportNumber(),
                         widget.getDayOfIssue(), widget.getMonthOfIssue(), widget.getYearOfIssue(),
                         phones);
             case LEAD:
-                return leadService.createNewPerson(widget.getLeadExperience(), widget.getLeadCertificate(), widget.getLeadSpecialization(),
+                return leadService.createNewPerson(widget.getLogin(), widget.getPassword(), widget.getRole(),
+                        widget.getLeadExperience(), widget.getLeadCertificate(), widget.getLeadSpecialization(),
                         widget.getPersonName(), widget.getPersonSurname(), widget.getPersonNickName(),
                         widget.getPassportSeries(), widget.getPassportNumber(),
                         widget.getDayOfIssue(), widget.getMonthOfIssue(), widget.getYearOfIssue(),

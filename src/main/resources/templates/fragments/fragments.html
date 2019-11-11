@@ -19,6 +19,15 @@
 
     <form action="#" th:action="@{/registration}" method="post">
         <div th:if="${registrationWidget.role != null}">
+
+            <div id="user_info_fields">
+                <label for="user_email">Ввести e-mail</label>
+                <input id="user_email" type="text" style="width: 150px" th:field="*{registrationWidget.login}">
+                <label for="user_password">Ввести пароль</label>
+                <input id="user_password" type="text" style="width: 150px" th:field="*{registrationWidget.password}">
+            </div>
+            </br>
+
             <div id="member_special_data"
                  th:if="${registrationWidget.role == T(com.competitions.entities.UserRoleEnum).MEMBER}">
                 <label for="member_degree">Сепень участника</label>

@@ -105,24 +105,33 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member createNewPerson(String memberDegree,
+    public Member createNewPerson(String login, String password, UserRoleEnum role,
+                                  String memberDegree,
                                   String personName, String personSurname, String personNickName,
                                   int passportSeries, int passportNumber, int dayOfDate, int monthOfDate, int yearOfDate,
                                   String... phoneNumbers) throws IllegalArgumentException {
         String date = convertToYyyyMmDd(yearOfDate, monthOfDate, dayOfDate);
+        UserInfo userInfo = createUserInfo(login, password, role);
         Passport passport = createPassport(passportSeries, passportNumber, date);
         Set<Phone> phones = Stream.of(phoneNumbers).map(Phone::new).collect(toSet());
-        Member member = createMember(memberDegree, personName, personSurname, personNickName, passport, phones);
+        Member member = createMember(userInfo, memberDegree, personName, personSurname, personNickName, passport, phones);
         passport.setPerson(member);
+        userInfo.setPerson(member);
         phones.forEach(p -> p.setPerson(member));
         return memberRepository.save(member);
     }
 
-    private Member createMember(String memberDegree,
+    private UserInfo createUserInfo(String login, String password, UserRoleEnum role) {
+        return UserInfo.builder().login(login).password(password).role(role.getDisplayValue()).build();
+    }
+
+    private Member createMember(UserInfo userInfo,
+                                String memberDegree,
                                 String personName, String personSurname, String personNickName,
                                 Passport passport,
                                 Set<Phone> phones) {
         return Member.builder()
+                .userInfo(userInfo)
                 .memberDegree(memberDegree)
                 .personName(personName)
                 .personSurname(personSurname)

@@ -36,6 +36,8 @@
                     </tbody>
                 </table>
             </form>
+            <p sec:authorize="isAnonymous()"><a href="/" th:href="@{/}">Back to home page</a></p>
+            <p sec:authorize="isAuthenticated()"><a href="/user_info" th:href="@{/user_info}">Back to home page</a></p>
         </div>
     </div>
 </div>

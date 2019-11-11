@@ -125,7 +125,7 @@ public class CompetitionsFacade {
                         widget.getDayOfIssue(), widget.getMonthOfIssue(), widget.getYearOfIssue(),
                         phones);
             default:
-                return null;
+                throw new IllegalArgumentException();
         }
     }
 

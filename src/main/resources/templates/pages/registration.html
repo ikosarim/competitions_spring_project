@@ -15,28 +15,4 @@
 
         <p><a href="/" th:href="@{/}">Back to home page</a></p>
     </body>
-
-    <script>
-        function renderForm() {
-            hideElements()
-            var select = document.getElementById('role').value;
-            if (select !== 'GUEST') {
-                if (select === 'MEMBER') {
-                    document.getElementById('member_special_data').style.display = 'block'
-                } else if (select === 'CAPTAIN') {
-                    document.getElementById('captain_special_data').style.display = 'block'
-                } else if (select === 'LEAD') {
-                    document.getElementById('lead_special_data').style.display = 'block'
-                }
-                document.getElementById('common_data').style.display = 'block'
-            }
-        }
-
-        function hideElements() {
-            document.getElementById('member_special_data').style.display = 'none'
-            document.getElementById('captain_special_data').style.display = 'none'
-            document.getElementById('lead_special_data').style.display = 'none'
-            document.getElementById('common_data').style.display = 'none'
-        }
-    </script>
 </html>

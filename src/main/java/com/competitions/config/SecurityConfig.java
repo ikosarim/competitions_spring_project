@@ -8,7 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //    @Autowired
@@ -26,16 +26,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/**").permitAll()
-//                .antMatchers("/", "/login", "/registration", "/competitions_list").permitAll()
-//                .antMatchers("/*").authenticated()
+                .antMatchers("/", "/login", "/registration", "/competitions_list").permitAll()
+                .antMatchers("/**").authenticated()
                 .and()
-        .formLogin()
-        .loginPage("/login.html")
-        .failureUrl("/error.html")
-        .and()
-        .logout()
-        .logoutSuccessUrl("/index.html");
+                .formLogin()
+                .loginPage("/login")
+                .failureUrl("/error")
+                .and()
+                .logout()
+                .logoutSuccessUrl("/user_info");
     }
 
     // TODO: 05.11.2019 Реализовать корректно

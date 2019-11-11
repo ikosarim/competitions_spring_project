@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-@Controller("/person_info")
+@Controller("/user_info")
 @ComponentScan(value = "com.competitions.facade")
-public class PersonInfoController {
+public class UserInfoController {
 
     @Autowired
     CompetitionsFacade competitionsFacade;

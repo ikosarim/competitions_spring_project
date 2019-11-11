@@ -1,6 +1,7 @@
 package com.competitions.controllers;
 
 import com.competitions.entities.Person;
+import com.competitions.entities.UserRoleEnum;
 import com.competitions.facade.CompetitionsFacade;
 import com.competitions.widgets.RegistrationWidget;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,10 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/registration")
@@ -35,7 +33,9 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String createUser(Model model, @ModelAttribute RegistrationWidget registrationWidget) {
+    public String createUser(Model model, @RequestParam(value = "userInfoRole") UserRoleEnum role,
+                             @ModelAttribute RegistrationWidget registrationWidget) {
+        registrationWidget.setRole(role);
         Person person = competitionsFacade.createPerson(registrationWidget);
         model.addAttribute("person", person);
         return "/pages/person_info";

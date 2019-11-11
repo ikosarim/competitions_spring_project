@@ -28,6 +28,10 @@
             </div>
             </br>
 
+            <div id="user_info_role" style="display: none">
+                <input th:name="userInfoRole" th:value="${registrationWidget.role}">
+            </div>
+
             <div id="member_special_data"
                  th:if="${registrationWidget.role == T(com.competitions.entities.UserRoleEnum).MEMBER}">
                 <label for="member_degree">Сепень участника</label>

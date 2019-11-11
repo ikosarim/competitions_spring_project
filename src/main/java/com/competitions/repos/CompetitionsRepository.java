@@ -5,9 +5,11 @@ import com.competitions.entities.Competition;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.Set;
 
+@Repository
 public interface CompetitionsRepository extends JpaRepository<Competition, Integer> {
 
     @Query("select cap from captain cap " +

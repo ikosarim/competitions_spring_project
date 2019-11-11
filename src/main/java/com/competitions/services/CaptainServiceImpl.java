@@ -3,7 +3,6 @@ package com.competitions.services;
 import com.competitions.entities.*;
 import com.competitions.repos.CaptainRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,7 +15,6 @@ import java.util.stream.Stream;
 import static com.competitions.util.UtilFormatterClass.convertToYyyyMmDd;
 import static java.util.stream.Collectors.toSet;
 
-@Repository
 @Service
 @Transactional
 public class CaptainServiceImpl implements CaptainService {

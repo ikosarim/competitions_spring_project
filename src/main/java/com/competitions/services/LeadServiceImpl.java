@@ -6,7 +6,6 @@ import com.competitions.entities.Passport;
 import com.competitions.entities.Phone;
 import com.competitions.repos.LeadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +17,6 @@ import java.util.stream.Stream;
 import static com.competitions.util.UtilFormatterClass.convertToYyyyMmDd;
 import static java.util.stream.Collectors.toSet;
 
-@Repository
 @Service
 @Transactional
 public class LeadServiceImpl implements LeadService {

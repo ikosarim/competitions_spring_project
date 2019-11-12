@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Set;
 
+import static java.util.stream.Collectors.toList;
+
 @Service
 public class CompetitionsFacade {
 
@@ -133,17 +135,14 @@ public class CompetitionsFacade {
     }
 
     private String[] createPhonesArray(List<String> phoneNums) {
-        String[] phones;
-        if (phoneNums.isEmpty()) {
-            phones = new String[0];
-        } else {
-            phones = new String[phoneNums.size()];
-            int index = 0;
-            for (String num : phoneNums) {
-                if ("".equals(num)) continue;
-                phones[index] = num;
-                index++;
-            }
+        phoneNums = phoneNums.stream()
+                .filter(num -> !"".equals(num))
+                .collect(toList());
+        String[] phones = new String[phoneNums.size()];
+        int index = 0;
+        for (String num : phoneNums) {
+            phones[index] = num;
+            index++;
         }
         return phones;
     }

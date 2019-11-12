@@ -37,12 +37,14 @@ public class Phone implements Serializable {
         if (this == o) return true;
         if (!(o instanceof Phone)) return false;
         Phone phone = (Phone) o;
-        return getPhoneNum().equals(phone.getPhoneNum());
+        return getIdPhone() == phone.getIdPhone() &&
+                Objects.equals(getPhoneNum(), phone.getPhoneNum()) &&
+                Objects.equals(getPerson(), phone.getPerson());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getPhoneNum());
+        return Objects.hash(getIdPhone(), getPhoneNum(), getPerson());
     }
 
     @Override

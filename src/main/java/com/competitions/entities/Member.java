@@ -31,9 +31,9 @@ public class Member extends Person implements Serializable {
     private Set<RequestForEnter> requestsForEnter;
 
     @Builder
-    public Member(UserInfo userInfo, String personName, String personSurname, String personNickName, Passport passport,
-                  String memberDegree, Phone... phones) {
-        super(userInfo, personName, personSurname, personNickName, passport, phones);
+    public Member(String personName, String personSurname, String personNickName, String password, Authority authority,
+                  Passport passport, String memberDegree, Phone... phones) {
+        super(personName, personSurname, personNickName, password, authority, passport, phones);
         this.memberDegree = memberDegree;
     }
 

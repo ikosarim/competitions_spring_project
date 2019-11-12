@@ -1,32 +1,34 @@
 package com.competitions.principal;
 
-import com.competitions.entities.UserInfo;
+import com.competitions.entities.Person;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
-public class UserInfoPrincipal implements UserDetails {
-    private UserInfo userInfo;
+import static java.util.Collections.singletonList;
 
-    public UserInfoPrincipal(UserInfo userInfo) {
-        this.userInfo = userInfo;
+public class PrincipalUserDetails implements UserDetails {
+    private Person person;
+
+    public PrincipalUserDetails(Person person) {
+        this.person = person;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return new ArrayList<>();
+        return singletonList(new SimpleGrantedAuthority(person.getAuthority().getRole().getDisplayValue()));
     }
 
     @Override
     public String getPassword() {
-        return this.userInfo.getPassword();
+        return person.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return this.userInfo.getLogin();
+        return person.getPersonNickName();
     }
 
     @Override
@@ -47,5 +49,9 @@ public class UserInfoPrincipal implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Person getUserDetails() {
+        return person;
     }
 }

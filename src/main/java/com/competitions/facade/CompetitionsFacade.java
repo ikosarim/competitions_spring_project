@@ -108,22 +108,22 @@ public class CompetitionsFacade {
     public Person createPerson(RegistrationWidget widget) {
         String[] phones = createPhonesArray(widget.getPhoneNums());
         switch (widget.getRole()) {
-            case MEMBER:
-                return memberService.createNewPerson(widget.getLogin(), widget.getPassword(), widget.getRole(),
+            case ROLE_MEMBER:
+                return memberService.createNewPerson(widget.getPassword(), widget.getRole(),
                         widget.getMemberDegree(),
                         widget.getPersonName(), widget.getPersonSurname(), widget.getPersonNickName(),
                         widget.getPassportSeries(), widget.getPassportNumber(),
                         widget.getDayOfIssue(), widget.getMonthOfIssue(), widget.getYearOfIssue(),
                         phones);
-            case CAPTAIN:
-                return captainService.createNewPerson(widget.getLogin(), widget.getPassword(), widget.getRole(),
+            case ROLE_CAPTAIN:
+                return captainService.createNewPerson(widget.getPassword(), widget.getRole(),
                         widget.getCaptainTeamName(), widget.getCaptainExperience(),
                         widget.getPersonName(), widget.getPersonSurname(), widget.getPersonNickName(),
                         widget.getPassportSeries(), widget.getPassportNumber(),
                         widget.getDayOfIssue(), widget.getMonthOfIssue(), widget.getYearOfIssue(),
                         phones);
-            case LEAD:
-                return leadService.createNewPerson(widget.getLogin(), widget.getPassword(), widget.getRole(),
+            case ROLE_LEAD:
+                return leadService.createNewPerson(widget.getPassword(), widget.getRole(),
                         widget.getLeadExperience(), widget.getLeadCertificate(), widget.getLeadSpecialization(),
                         widget.getPersonName(), widget.getPersonSurname(), widget.getPersonNickName(),
                         widget.getPassportSeries(), widget.getPassportNumber(),

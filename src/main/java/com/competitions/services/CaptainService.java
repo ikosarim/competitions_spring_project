@@ -28,7 +28,7 @@ public interface CaptainService {
 
     Captain leaveTheCompetition(Captain captain, Competition competition); // +Controller -Captain
 
-    Captain createNewPerson(String login, String password, UserRoleEnum role,
+    Captain createNewPerson(String password, UserRoleEnum role,
                             String captainTeamName, double captainExperience,
                             String personName, String personSurname, String personNickName,
                             int passportSeries, int passportNumber, int dayOfDate, int monthOfDate, int yearOfDate,

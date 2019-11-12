@@ -1,6 +1,7 @@
 package com.competitions.services;
 
 import com.competitions.entities.*;
+import com.competitions.repos.AuthorityRepository;
 import com.competitions.repos.CaptainRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,8 @@ import static java.util.stream.Collectors.toSet;
 @Transactional
 public class CaptainServiceImpl implements CaptainService {
 
+    @Autowired
+    AuthorityRepository authorityRepository;
     @Autowired
     CaptainRepository captainRepository;
 
@@ -101,39 +104,34 @@ public class CaptainServiceImpl implements CaptainService {
     }
 
     @Override
-    public Captain createNewPerson(String login, String password, UserRoleEnum role,
+    public Captain createNewPerson(String password, UserRoleEnum role,
                                    String captainTeamName, double captainExperience,
                                    String personName, String personSurname, String personNickName,
                                    int passportSeries, int passportNumber, int dayOfDate, int monthOfDate, int yearOfDate,
                                    String... phoneNumbers) throws IllegalArgumentException {
         String date = convertToYyyyMmDd(yearOfDate, monthOfDate, dayOfDate);
-        UserInfo userInfo = createUserInfo(login, password, role);
         Passport passport = createPassport(passportSeries, passportNumber, date);
         Set<Phone> phones = Stream.of(phoneNumbers).map(Phone::new).collect(toSet());
-        Captain captain = createCaptain(userInfo, captainTeamName, captainExperience, personName, personSurname,
+        Captain captain = createCaptain(password, role, captainTeamName, captainExperience, personName, personSurname,
                 personNickName, passport, phones);
         passport.setPerson(captain);
-        userInfo.setPerson(captain);
         phones.forEach(p -> p.setPerson(captain));
         return captainRepository.save(captain);
     }
 
-    private UserInfo createUserInfo(String login, String password, UserRoleEnum role) {
-        return UserInfo.builder().login(login).password(password).role(role.getDisplayValue()).build();
-    }
-
-    private Captain createCaptain(UserInfo userInfo,
+    private Captain createCaptain(String password, UserRoleEnum role,
                                   String captainTeamName, double captainExperience,
                                   String personName, String personSurname, String personNickName,
                                   Passport passport,
                                   Set<Phone> phones) {
         return Captain.builder()
-                .userInfo(userInfo)
                 .captainExperience(captainExperience)
                 .captainTeamName(captainTeamName)
                 .personName(personName)
                 .personNickName(personNickName)
                 .personSurname(personSurname)
+                .password(password)
+                .authority(authorityRepository.findByRoleName(role))
                 .passport(passport)
                 .phones(Arrays.copyOf(phones.toArray(), phones.size(), Phone[].class))
                 .build();

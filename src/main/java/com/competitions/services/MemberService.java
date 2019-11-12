@@ -26,7 +26,7 @@ public interface MemberService {
 
     Member leaveTeam(Member member); // +Controller -Member
 
-    Member createNewPerson(String login, String password, UserRoleEnum role,
+    Member createNewPerson(String password, UserRoleEnum role,
                            String memberDegree,
                            String personName, String personSurname, String personNickName,
                            int passportSeries, int passportNumber, int dayOfDate, int monthOfDate, int yearOfDate,

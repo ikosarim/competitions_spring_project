@@ -1,6 +1,5 @@
 package com.competitions.widgets;
 
-import com.competitions.entities.UserInfo;
 import com.competitions.entities.UserRoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 public class RegistrationWidget {
 
-    private String login;
     private String password;
     private UserRoleEnum role;
     private String memberDegree;

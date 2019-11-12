@@ -27,7 +27,7 @@ public interface LeadService {
 
     CompetitionLead deleteCompetition(CompetitionLead lead, String competitionName); //  +Controller -Lead
 
-    CompetitionLead createNewPerson(String login, String password, UserRoleEnum role,
+    CompetitionLead createNewPerson(String password, UserRoleEnum role,
                                     double leadExperience, String leadCertificates, String leadSpecialization,
                                     String personName, String personSurname, String personNickName,
                                     int passportSeries, int passportNumber, int dayOfDate, int monthOfDate, int yearOfDate,

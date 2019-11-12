@@ -36,21 +36,26 @@ public abstract class Person {
     @Column(name = "person_nick_name", nullable = false, unique = true)
     private String personNickName;
 
+    @Column(name = "password", nullable = false)
+    private String password;
+
     @OneToMany(mappedBy = "person", cascade = ALL, fetch = EAGER, orphanRemoval = true)
     private Set<Phone> phone;
 
     @OneToOne(mappedBy = "person", cascade = {PERSIST, REMOVE}, fetch = LAZY, orphanRemoval = true)
     private Passport passport;
 
-    @OneToOne(mappedBy = "person", cascade = {PERSIST, REMOVE}, fetch = LAZY, orphanRemoval = true)
-    private UserInfo userInfo;
+    @ManyToOne
+    @JoinColumn(name = "authority_id", nullable = false)
+    private Authority authority;
 
-    public Person(UserInfo userInfo, String personName, String personSurname, String personNickName, Passport passport,
-                  Phone... phones) {
-        this.userInfo = userInfo;
+    public Person(String personName, String personSurname, String personNickName, String password, Authority authority,
+                  Passport passport, Phone... phones) {
         this.personName = personName;
         this.personSurname = personSurname;
         this.personNickName = personNickName;
+        this.password = password;
+        this.authority = authority;
         this.passport = passport;
         this.phone = new HashSet<>();
         phone.addAll(asList(phones));

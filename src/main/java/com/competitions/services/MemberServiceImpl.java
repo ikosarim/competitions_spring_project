@@ -1,6 +1,7 @@
 package com.competitions.services;
 
 import com.competitions.entities.*;
+import com.competitions.repos.AuthorityRepository;
 import com.competitions.repos.CaptainRepository;
 import com.competitions.repos.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,8 @@ import static java.util.stream.Collectors.toSet;
 @Transactional
 public class MemberServiceImpl implements MemberService {
 
+    @Autowired
+    AuthorityRepository authorityRepository;
     @Autowired
     MemberRepository memberRepository;
     @Autowired
@@ -105,37 +108,32 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member createNewPerson(String login, String password, UserRoleEnum role,
+    public Member createNewPerson(String password, UserRoleEnum role,
                                   String memberDegree,
                                   String personName, String personSurname, String personNickName,
                                   int passportSeries, int passportNumber, int dayOfDate, int monthOfDate, int yearOfDate,
                                   String... phoneNumbers) throws IllegalArgumentException {
         String date = convertToYyyyMmDd(yearOfDate, monthOfDate, dayOfDate);
-        UserInfo userInfo = createUserInfo(login, password, role);
         Passport passport = createPassport(passportSeries, passportNumber, date);
         Set<Phone> phones = Stream.of(phoneNumbers).map(Phone::new).collect(toSet());
-        Member member = createMember(userInfo, memberDegree, personName, personSurname, personNickName, passport, phones);
+        Member member = createMember(password, role, memberDegree, personName, personSurname, personNickName, passport, phones);
         passport.setPerson(member);
-        userInfo.setPerson(member);
         phones.forEach(p -> p.setPerson(member));
         return memberRepository.save(member);
     }
 
-    private UserInfo createUserInfo(String login, String password, UserRoleEnum role) {
-        return UserInfo.builder().login(login).password(password).role(role.getDisplayValue()).build();
-    }
-
-    private Member createMember(UserInfo userInfo,
+    private Member createMember(String password, UserRoleEnum role,
                                 String memberDegree,
                                 String personName, String personSurname, String personNickName,
                                 Passport passport,
                                 Set<Phone> phones) {
         return Member.builder()
-                .userInfo(userInfo)
                 .memberDegree(memberDegree)
                 .personName(personName)
                 .personSurname(personSurname)
                 .personNickName(personNickName)
+                .password(password)
+                .authority(authorityRepository.findByRoleName(role))
                 .passport(passport)
                 .phones(Arrays.copyOf(phones.toArray(), phones.size(), Phone[].class))
                 .build();

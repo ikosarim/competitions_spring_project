@@ -2,10 +2,9 @@ package com.competitions.entities;
 
 public enum UserRoleEnum {
 
-    GUEST("Guest"),
-    MEMBER("Member"),
-    CAPTAIN("Captain"),
-    LEAD("Lead");
+    ROLE_MEMBER("Member"),
+    ROLE_CAPTAIN("Captain"),
+    ROLE_LEAD("Lead");
 
     private final String displayValue;
 

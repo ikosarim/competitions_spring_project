@@ -1,10 +1,8 @@
 package com.competitions.repos;
 
-import com.competitions.entities.UserInfo;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import com.competitions.entities.Person;
 
-@Repository
-public interface UserRepository extends JpaRepository<UserInfo, Integer> {
-    UserInfo findByLogin(String login);
+public interface UserRepository {
+
+    Person findByLogin(String nickName);
 }

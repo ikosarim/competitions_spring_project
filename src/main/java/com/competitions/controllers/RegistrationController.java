@@ -38,6 +38,6 @@ public class RegistrationController {
         registrationWidget.setRole(role);
         Person person = competitionsFacade.createPerson(registrationWidget);
         model.addAttribute("person", person);
-        return "/pages/person_info";
+        return "redirect:/user_info";
     }
 }

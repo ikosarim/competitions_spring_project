@@ -38,9 +38,9 @@ public class CompetitionLead extends Person implements Serializable {
 
     @Builder
     public CompetitionLead(String personName, String personSurname, String personNickName, String password,
-                           Authority authority, Passport passport, double leadExperience, String leadCertificates,
+                           Authorities authorities, Passport passport, double leadExperience, String leadCertificates,
                            String leadSpecialization, Phone... phones) {
-        super(personName, personSurname, personNickName, password, authority, passport, phones);
+        super(personName, personSurname, personNickName, password, authorities, passport, phones);
         this.leadExperience = leadExperience;
         this.leadCertificates = leadCertificates;
         this.leadSpecialization = leadSpecialization;

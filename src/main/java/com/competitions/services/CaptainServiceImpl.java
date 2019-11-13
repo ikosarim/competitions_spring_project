@@ -1,7 +1,7 @@
 package com.competitions.services;
 
 import com.competitions.entities.*;
-import com.competitions.repos.AuthorityRepository;
+import com.competitions.repos.AuthoritiesRepository;
 import com.competitions.repos.CaptainRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ import static java.util.stream.Collectors.toSet;
 public class CaptainServiceImpl implements CaptainService {
 
     @Autowired
-    AuthorityRepository authorityRepository;
+    AuthoritiesRepository authoritiesRepository;
     @Autowired
     CaptainRepository captainRepository;
 
@@ -131,7 +131,7 @@ public class CaptainServiceImpl implements CaptainService {
                 .personNickName(personNickName)
                 .personSurname(personSurname)
                 .password(password)
-                .authority(authorityRepository.findByRoleName(role))
+                .authorities(authoritiesRepository.findByRoleName(role))
                 .passport(passport)
                 .phones(Arrays.copyOf(phones.toArray(), phones.size(), Phone[].class))
                 .build();

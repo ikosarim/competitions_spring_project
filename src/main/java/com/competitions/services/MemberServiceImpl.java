@@ -1,7 +1,7 @@
 package com.competitions.services;
 
 import com.competitions.entities.*;
-import com.competitions.repos.AuthorityRepository;
+import com.competitions.repos.AuthoritiesRepository;
 import com.competitions.repos.CaptainRepository;
 import com.competitions.repos.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import static java.util.stream.Collectors.toSet;
 public class MemberServiceImpl implements MemberService {
 
     @Autowired
-    AuthorityRepository authorityRepository;
+    AuthoritiesRepository authoritiesRepository;
     @Autowired
     MemberRepository memberRepository;
     @Autowired
@@ -133,7 +133,7 @@ public class MemberServiceImpl implements MemberService {
                 .personSurname(personSurname)
                 .personNickName(personNickName)
                 .password(password)
-                .authority(authorityRepository.findByRoleName(role))
+                .authorities(authoritiesRepository.findByRoleName(role))
                 .passport(passport)
                 .phones(Arrays.copyOf(phones.toArray(), phones.size(), Phone[].class))
                 .build();

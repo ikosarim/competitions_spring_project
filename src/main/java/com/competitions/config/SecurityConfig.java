@@ -39,6 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/", "/login", "/registration/**", "/competitions_list").permitAll()
 //                .antMatchers("/**").authenticated()
                 .antMatchers("/**").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -73,4 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     // TODO: 05.11.2019 Реализовать корректно
+
+    // TODO: 13.11.2019 https://www.roytuts.com/spring-security-authentication-and-role-based-authorization-using-jwt/
+    // TODO: 13.11.2019 https://stackoverflow.com/questions/37615034/spring-security-spring-boot-how-to-set-roles-for-users/50533455
 }

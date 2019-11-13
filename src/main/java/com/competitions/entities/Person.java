@@ -47,15 +47,15 @@ public abstract class Person {
 
     @ManyToOne
     @JoinColumn(name = "authority_id", nullable = false)
-    private Authority authority;
+    private Authorities authorities;
 
-    public Person(String personName, String personSurname, String personNickName, String password, Authority authority,
+    public Person(String personName, String personSurname, String personNickName, String password, Authorities authorities,
                   Passport passport, Phone... phones) {
         this.personName = personName;
         this.personSurname = personSurname;
         this.personNickName = personNickName;
         this.password = password;
-        this.authority = authority;
+        this.authorities = authorities;
         this.passport = passport;
         this.phone = new HashSet<>();
         phone.addAll(asList(phones));

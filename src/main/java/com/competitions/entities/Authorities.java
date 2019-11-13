@@ -7,11 +7,11 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity(name = "authority")
+@Entity(name = "authorities")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Authority {
+public class Authorities {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,7 +25,7 @@ public class Authority {
 //    private Set<Person> persons;
 
     @Builder
-    public Authority(UserRoleEnum role) {
+    public Authorities(UserRoleEnum role) {
         this.role = role;
     }
 }

@@ -18,7 +18,7 @@ public class PrincipalUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return singletonList(new SimpleGrantedAuthority(person.getAuthority().getRole().getDisplayValue()));
+        return singletonList(new SimpleGrantedAuthority(person.getAuthorities().getRole().getDisplayValue()));
     }
 
     @Override

@@ -48,8 +48,8 @@ public class LoginController {
         // read principal out of security context and set it to session
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         log.warn(authentication.getName());
-//        UsernamePasswordAuthenticationToken userPasswordAuthentication = (UsernamePasswordAuthenticationToken) authentication;
-//        validatePrinciple(userPasswordAuthentication.getPrincipal());
+        UsernamePasswordAuthenticationToken userPasswordAuthentication = (UsernamePasswordAuthenticationToken) authentication;
+        validatePrinciple(userPasswordAuthentication.getPrincipal());
         Person loggedInUser = ((PrincipalUserDetails) authentication.getPrincipal()).getUserDetails();
         model.addAttribute("currentUser", loggedInUser.getPersonNickName());
         session.setAttribute("userId", loggedInUser.getIdPerson());

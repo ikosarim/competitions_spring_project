@@ -75,6 +75,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     // TODO: 05.11.2019 Реализовать корректно
 
-    // TODO: 13.11.2019 https://www.roytuts.com/spring-security-authentication-and-role-based-authorization-using-jwt/
-    // TODO: 13.11.2019 https://stackoverflow.com/questions/37615034/spring-security-spring-boot-how-to-set-roles-for-users/50533455
+    // TODO: 14.11.2019 https://javarush.ru/groups/posts/2269-druzhim-obihchnihy-vkhod-cherez-email-i-oauth2-v-spring-security-na-primere-servisa-zametok#%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D0%BD%D0%B0%D1%8F-%D0%BA%D0%BE%D0%BD%D1%84%D0%B8%D0%B3%D1%83%D1%80%D0%B0%D1%86%D0%B8%D1%8F-SecurityConfig
 }

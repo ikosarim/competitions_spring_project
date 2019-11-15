@@ -1,19 +1,15 @@
-package com.competitions.services;
+package com.competitions.security;
 
 import com.competitions.entities.Person;
-import com.competitions.principal.PrincipalUserDetails;
 import com.competitions.repos.PersonRepository;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Slf4j
-@Service("userServiceImpl")
-public class UserDetailsServiceImpl implements UserDetailsService {
-
+@Component(value = "customUserDetailsService")
+public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     PersonRepository personRepository;
 
@@ -21,9 +17,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Person person = personRepository.findByPersonNickName(username);
         if (person == null) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException(username);
         }
-        log.info("loadUserByUsername() : {}", username);
-        return new PrincipalUserDetails(person);
+        return new PersonPrincipal(person);
     }
 }

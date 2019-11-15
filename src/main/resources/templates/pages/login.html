@@ -1,36 +1,27 @@
-<!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{fragments/layout}">
-<head>
-    <title>Login</title>
-</head>
+<html>
+<head></head>
+
 <body>
-<div class="panel-body">
-    <form action="#" th:action="@{/login/postLogin}" method="post">
-        <fieldset>
-            <legend>Please sign in</legend>
-<!--            <c:if test="${not empty error}">-->
-<!--                <div class="alert alert-danger">-->
-<!--                    <spring:message code="AbstractUserDetailsAuthenticationProvider.badCredentials"/>-->
-<!--                    <br/>-->
-<!--                </div>-->
-<!--            </c:if>-->
-            <div class="form-group">
-                <input class="form:input-large" placeholder="User Name"
-                       name='username' type="text">
-            </div>
-            <div class="form-group">
-                <input class=" form:input-large" placeholder="Password"
-                       name='password' type="password" value="">
-            </div>
-            <input class="btn" type="submit"
-                   value="Login">
-        </fieldset>
-    </form>
+<h1>Login</h1>
 
-    <p><a href="/" th:href="@{/}">Back to home page</a></p>
+<form name='f' action="login" method='POST'>
 
-</div>
+    <table>
+        <tr>
+            <td>User:</td>
+            <td><input type="text" name="username"></td>
+        </tr>
+        <tr>
+            <td>Password:</td>
+            <td><input type="password" name="password" /></td>
+        </tr>
+
+        <tr>
+            <td><input name="submit" type="submit" value="submit" /></td>
+        </tr>
+    </table>
+
+</form>
+
 </body>
 </html>

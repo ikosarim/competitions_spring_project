@@ -17,6 +17,7 @@ import org.springframework.security.crypto.password.StandardPasswordEncoder;
 import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 
 import javax.annotation.Resource;
+import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,12 +26,19 @@ import java.util.Map;
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Resource(name = "userDetails")
-    UserDetailsService userDetailsService;
+    @Autowired
+    private DataSource dataSource;
+    @Resource(name = "customUserDetailsService")
+    private UserDetailsService userDetailsService;
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(authenticationProvider());
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(delegatingPasswordEncoder())
+                .and()
+                .authenticationProvider(authenticationProvider())
+                .jdbcAuthentication()
+                .dataSource(dataSource);
     }
 
     @Override
@@ -44,23 +52,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/login")
                 .failureUrl("/error")
-                .usernameParameter("txtUsername")
-                .passwordParameter("txtPassword")
+                .successForwardUrl("/user_info")
                 .and()
-                .logout()
-                .logoutSuccessUrl("/user_info");
+                .csrf()
+                .disable();
     }
 
     @Bean
-    DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setPasswordEncoder(delegatingPasswordEncoder());
-        authenticationProvider.setUserDetailsService(userDetailsService);
-
-        return authenticationProvider;
+    public DaoAuthenticationProvider authenticationProvider() {
+        final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(delegatingPasswordEncoder());
+        return authProvider;
     }
 
-    @Bean
+    @Bean(name = "myPasswordEncoder")
     public PasswordEncoder delegatingPasswordEncoder() {
         PasswordEncoder defaultEncoder = new StandardPasswordEncoder();
         Map<String, PasswordEncoder> encoders = new HashMap<>();
@@ -74,6 +80,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     // TODO: 05.11.2019 Реализовать корректно
-
-    // TODO: 14.11.2019 https://javarush.ru/groups/posts/2269-druzhim-obihchnihy-vkhod-cherez-email-i-oauth2-v-spring-security-na-primere-servisa-zametok#%D0%9E%D1%81%D0%BD%D0%BE%D0%B2%D0%BD%D0%B0%D1%8F-%D0%BA%D0%BE%D0%BD%D1%84%D0%B8%D0%B3%D1%83%D1%80%D0%B0%D1%86%D0%B8%D1%8F-SecurityConfig
 }

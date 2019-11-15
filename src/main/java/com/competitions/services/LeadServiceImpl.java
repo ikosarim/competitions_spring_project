@@ -4,9 +4,11 @@ import com.competitions.entities.*;
 import com.competitions.repos.AuthoritiesRepository;
 import com.competitions.repos.LeadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -23,6 +25,8 @@ public class LeadServiceImpl implements LeadService {
     AuthoritiesRepository authoritiesRepository;
     @Autowired
     LeadRepository leadRepository;
+    @Resource(name = "myPasswordEncoder")
+    PasswordEncoder encoder;
 
     @Override
     @Transactional(readOnly = true)
@@ -127,7 +131,7 @@ public class LeadServiceImpl implements LeadService {
                 .personName(personName)
                 .personSurname(personSurname)
                 .personNickName(personNickName)
-                .password(password)
+                .password(encoder.encode(password))
                 .authorities(authoritiesRepository.findByRoleName(role))
                 .passport(passport)
                 .phones(Arrays.copyOf(phones.toArray(), phones.size(), Phone[].class))

@@ -21,9 +21,6 @@ public class Authorities {
     @Enumerated(EnumType.STRING)
     private UserRoleEnum role;
 
-//    @OneToMany(mappedBy = "authority")
-//    private Set<Person> persons;
-
     @Builder
     public Authorities(UserRoleEnum role) {
         this.role = role;

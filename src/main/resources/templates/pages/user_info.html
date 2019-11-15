@@ -1,9 +1,32 @@
-<html xmlns:th="http://www.thymeleaf.org">
-<head lang="en">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
     <meta charset="UTF-8">
-    <title>My super project!</title>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>Карточка пользователя</title>
 </head>
 <body>
-    <p>You on card page</p>
+<form action="#" th:action="@{/user_info}" method="post">
+    <div id="person_data">
+        <p id="person_name"></p>
+        <p id="person_surname"></p>
+        <input type="text" th:name="personNickName" style="user-modify: false"/>
+        <input type="submit">
+        <button id="personson_nick_name_edit" onclick="function editPersonNickName() {
+                document.getElementById('text').style.webkitUserModify = true
+            }">Изменить</button>
+    </div>
+    <div id="special_data">
+
+    </div>
+    <div id="phones">
+
+    </div>
+    <div id="passport_data">
+
+    </div>
+</form>
 </body>

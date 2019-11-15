@@ -9,10 +9,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpSession;
 
-@Controller("/user_info")
+@Controller
+@RequestMapping("/user_info")
 @ComponentScan(value = "com.competitions.facade")
 public class UserInfoController {
 

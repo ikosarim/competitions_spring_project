@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
@@ -9,18 +10,25 @@
     <title>Карточка пользователя</title>
 </head>
 <body>
-<form action="#" th:action="@{/user_info}" method="post">
+<form action="#" th:action="@{/user}" method="post">
     <div id="person_data">
-        <p id="person_name"></p>
-        <p id="person_surname"></p>
-        <input type="text" th:name="personNickName" style="user-modify: false"/>
-        <input type="submit">
-        <button id="personson_nick_name_edit" onclick="function editPersonNickName() {
-                document.getElementById('text').style.webkitUserModify = true
-            }">Изменить</button>
+        <p id="person_name" th:text="#{user.personName}">personName</p>
+        <p id="person_surname" th:text="#{user.personSurname}">personSurname</p>
+        <p id="person_nick_name" th:text="#{user.personNickName}">personNickName</p>
     </div>
     <div id="special_data">
-
+        <div sec:authorize="hasAuthority('Member')">
+            <p id="member_degree" th:text="#{user.memberDegree}">memberDegree</p>
+        </div>
+        <div sec:authorize="hasAuthority('Captain')">
+            <p id="captain_team_name" th:text="#{user.captainTeamName}">captainTeamName</p>
+            <p id="captain_experience" th:text="#{user.captainExperience}">captainExperience</p>
+        </div>
+        <div sec:authorize="hasAuthority('Lead')">
+            <p id="lead_experience" th:text="#{user.leadExperience}">leadExperience</p>
+            <p id="lead_certificates" th:text="#{user.leadCertificates}">leadCertificates</p>
+            <p id="lead_specialization" th:text="#{user.leadSpecialization}">leadSpecialization</p>
+        </div>
     </div>
     <div id="phones">
 

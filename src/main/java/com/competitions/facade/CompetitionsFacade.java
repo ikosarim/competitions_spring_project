@@ -4,8 +4,10 @@ import com.competitions.entities.*;
 import com.competitions.services.*;
 import com.competitions.widgets.RegistrationWidget;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Set;
 
@@ -24,6 +26,8 @@ public class CompetitionsFacade {
     LeadService leadService;
     @Autowired
     PersonService personService;
+    @Resource(name = "myPasswordEncoder")
+    private PasswordEncoder delegatingPasswordEncoder;
 
     public List<Competition> findAllCompetitions() {
         return competitionService.findAllCompetitions();
@@ -109,21 +113,21 @@ public class CompetitionsFacade {
         String[] phones = createPhonesArray(widget.getPhoneNums());
         switch (widget.getRole()) {
             case ROLE_MEMBER:
-                return memberService.createNewPerson(widget.getPassword(), widget.getRole(),
+                return memberService.createNewPerson(delegatingPasswordEncoder.encode(widget.getPassword()), widget.getRole(),
                         widget.getMemberDegree(),
                         widget.getPersonName(), widget.getPersonSurname(), widget.getPersonNickName(),
                         widget.getPassportSeries(), widget.getPassportNumber(),
                         widget.getDayOfIssue(), widget.getMonthOfIssue(), widget.getYearOfIssue(),
                         phones);
             case ROLE_CAPTAIN:
-                return captainService.createNewPerson(widget.getPassword(), widget.getRole(),
+                return captainService.createNewPerson(delegatingPasswordEncoder.encode(widget.getPassword()), widget.getRole(),
                         widget.getCaptainTeamName(), widget.getCaptainExperience(),
                         widget.getPersonName(), widget.getPersonSurname(), widget.getPersonNickName(),
                         widget.getPassportSeries(), widget.getPassportNumber(),
                         widget.getDayOfIssue(), widget.getMonthOfIssue(), widget.getYearOfIssue(),
                         phones);
             case ROLE_LEAD:
-                return leadService.createNewPerson(widget.getPassword(), widget.getRole(),
+                return leadService.createNewPerson(delegatingPasswordEncoder.encode(widget.getPassword()), widget.getRole(),
                         widget.getLeadExperience(), widget.getLeadCertificate(), widget.getLeadSpecialization(),
                         widget.getPersonName(), widget.getPersonSurname(), widget.getPersonNickName(),
                         widget.getPassportSeries(), widget.getPassportNumber(),

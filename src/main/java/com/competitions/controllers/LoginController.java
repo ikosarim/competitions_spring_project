@@ -16,7 +16,7 @@ import org.springframework.web.bind.support.SessionStatus;
 public class LoginController {
 
     @GetMapping
-    public String login() {
+    public String getLoginPage() {
         return "/pages/login";
     }
 

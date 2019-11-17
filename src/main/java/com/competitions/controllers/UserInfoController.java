@@ -4,14 +4,14 @@ import com.competitions.entities.*;
 import com.competitions.facade.CompetitionsFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user_info")
@@ -22,8 +22,13 @@ public class UserInfoController {
     CompetitionsFacade competitionsFacade;
 
     @GetMapping
-    public String getUserInfoCard(Model model, HttpSession session) {
-        System.out.println();
+    public String getUserInfoCard(Model model) {
+        String userNickName = ((UserDetails) SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getPrincipal())
+                .getUsername();
+        Person user = competitionsFacade.getPerson(userNickName);
+        model.addAttribute("user", user);
         return "/pages/user_info";
     }
 

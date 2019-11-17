@@ -9,17 +9,15 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.StandardPasswordEncoder;
-import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.Map;
+
+import static org.springframework.security.config.http.SessionCreationPolicy.ALWAYS;
 
 @Configuration
 @EnableWebSecurity
@@ -30,11 +28,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private DataSource dataSource;
     @Resource(name = "customUserDetailsService")
     private UserDetailsService userDetailsService;
+    @Resource(name = "myPasswordEncoder")
+    private PasswordEncoder delegatingPasswordEncoder;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService)
-                .passwordEncoder(delegatingPasswordEncoder())
+                .passwordEncoder(delegatingPasswordEncoder)
                 .and()
                 .authenticationProvider(authenticationProvider())
                 .jdbcAuthentication()
@@ -44,40 +44,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-//                .antMatchers("/", "/login", "/registration/**", "/competitions_list").permitAll()
-//                .antMatchers("/**").authenticated()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/", "/login", "/registration/**", "/competitions_list").permitAll()
+                .antMatchers("/**").authenticated()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .failureUrl("/error")
-                .successForwardUrl("/user_info")
+                .defaultSuccessUrl("/user_info")
                 .and()
                 .csrf()
-                .disable();
+                .disable()
+                .sessionManagement()
+                .sessionCreationPolicy(ALWAYS)
+                .maximumSessions(1)
+                .sessionRegistry(sessionRegistry());
+    }
+
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
     }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         final DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(delegatingPasswordEncoder());
+        authProvider.setPasswordEncoder(delegatingPasswordEncoder);
         return authProvider;
     }
-
-    @Bean(name = "myPasswordEncoder")
-    public PasswordEncoder delegatingPasswordEncoder() {
-        PasswordEncoder defaultEncoder = new StandardPasswordEncoder();
-        Map<String, PasswordEncoder> encoders = new HashMap<>();
-        encoders.put("bcrypt", new BCryptPasswordEncoder());
-        encoders.put("scrypt", new SCryptPasswordEncoder());
-
-        DelegatingPasswordEncoder passwordEncoder = new DelegatingPasswordEncoder("bcrypt", encoders);
-        passwordEncoder.setDefaultPasswordEncoderForMatches(defaultEncoder);
-
-        return passwordEncoder;
-    }
-
-    // TODO: 05.11.2019 Реализовать корректно
 }

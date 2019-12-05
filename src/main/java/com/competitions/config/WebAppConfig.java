@@ -50,6 +50,4 @@ public class WebAppConfig implements WebMvcConfigurer {
         configurer.setCheckExistence(true);
         return configurer;
     }
-
-    // TODO: 04.11.2019 Как настроить логгирование в thymeleaf
 }

@@ -25,7 +25,7 @@ import java.util.Properties;
 @ComponentScan(basePackages = {"com.competitions.entities", "com.competitions.services"})
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "com.competitions.repos")
-@PropertySource("application.properties")
+@PropertySource("classpath:./application.properties")
 public class DatabaseConfig {
 
     private static Logger logger = LoggerFactory.getLogger(DatabaseConfig.class);

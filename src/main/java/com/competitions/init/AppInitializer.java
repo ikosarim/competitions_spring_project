@@ -3,12 +3,14 @@ package com.competitions.init;
 import com.competitions.config.DatabaseConfig;
 import com.competitions.config.SecurityConfig;
 import com.competitions.config.WebAppConfig;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.Filter;
 
+@Configuration
 public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {

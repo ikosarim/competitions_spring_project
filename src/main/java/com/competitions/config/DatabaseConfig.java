@@ -37,7 +37,7 @@ public class DatabaseConfig {
         this.env = env;
     }
 
-    @Bean
+    @Bean(value = "myDataSource")
     public DataSource dataSource() {
         try {
             DriverManagerDataSource dataSource = new DriverManagerDataSource();

@@ -2,6 +2,7 @@ package com.competitions.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,6 +23,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.ALW
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
+@ComponentScan(value = "com.competitions")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource(name = "myDataSource")

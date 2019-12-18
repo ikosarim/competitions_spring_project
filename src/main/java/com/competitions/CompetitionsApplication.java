@@ -1,5 +1,6 @@
 package com.competitions;
 
+import com.competitions.init.AppInitializer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -7,6 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CompetitionsApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CompetitionsApplication.class, args);
+        SpringApplication.run(new Class[]{CompetitionsApplication.class, AppInitializer.class}, args);
     }
 }

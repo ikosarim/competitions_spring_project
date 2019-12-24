@@ -10,6 +10,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -20,6 +21,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
+
+import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.H2;
 
 @Configuration
 @ComponentScan(basePackages = {"com.competitions.entities", "com.competitions.services"})
@@ -52,6 +55,11 @@ public class DatabaseConfig {
         }
     }
 
+    @Bean(value = "h2DataSource")
+    public DataSource h2DataSource() {
+        return new EmbeddedDatabaseBuilder().setType(H2).build();
+    }
+
     @Bean
     public Properties hibernateProperties() {
         Properties hibernateProp = new Properties();
@@ -74,7 +82,7 @@ public class DatabaseConfig {
     public EntityManagerFactory entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setPackagesToScan("com.competitions.entities");
-        em.setDataSource(dataSource());
+        em.setDataSource(h2DataSource());
         em.setJpaProperties(hibernateProperties());
         em.setJpaVendorAdapter(jpaVendorAdapter());
         em.afterPropertiesSet();

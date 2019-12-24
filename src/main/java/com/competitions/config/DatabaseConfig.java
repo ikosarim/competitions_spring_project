@@ -28,7 +28,7 @@ import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.
 @ComponentScan(basePackages = {"com.competitions.entities", "com.competitions.services"})
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "com.competitions.repos")
-@PropertySource("application.properties")
+@PropertySource("classpath:./application.properties")
 public class DatabaseConfig {
 
     private static Logger logger = LoggerFactory.getLogger(DatabaseConfig.class);
@@ -40,7 +40,7 @@ public class DatabaseConfig {
         this.env = env;
     }
 
-    @Bean
+    @Bean(name = "myDataSource")
     public DataSource dataSource() {
         try {
             DriverManagerDataSource dataSource = new DriverManagerDataSource();

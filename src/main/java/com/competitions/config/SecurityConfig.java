@@ -24,7 +24,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.ALW
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
+    @Resource(name = "h2DataSource")
     private DataSource dataSource;
     @Resource(name = "customUserDetailsService")
     private UserDetailsService userDetailsService;

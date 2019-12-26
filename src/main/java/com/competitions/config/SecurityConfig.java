@@ -2,6 +2,7 @@ package com.competitions.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,6 +23,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.ALW
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
+@ComponentScan(value = "com.competitions.security")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource(name = "h2DataSource")
@@ -72,4 +74,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         authProvider.setPasswordEncoder(delegatingPasswordEncoder);
         return authProvider;
     }
+
+    // TODO: 26.12.2019 https://stackoverflow.com/questions/21436343/spring-security-3-2-javaconfig-springsecurityfilterchain-setup-in-a-servlet-3 
 }
